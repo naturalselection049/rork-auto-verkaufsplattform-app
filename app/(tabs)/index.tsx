@@ -20,7 +20,12 @@ export default function HomeScreen() {
   const { savedSearches } = useSavedSearchesStore();
   
   // Count active filters
-  const activeFiltersCount = Object.keys(filters).length;
+  const activeFiltersCount = Object.keys(filters).filter(key => 
+    filters[key as keyof typeof filters] !== undefined && 
+    (Array.isArray(filters[key as keyof typeof filters]) ? 
+      (filters[key as keyof typeof filters] as any[]).length > 0 : 
+      true)
+  ).length;
   
   useEffect(() => {
     const loadListings = async () => {
@@ -58,11 +63,12 @@ export default function HomeScreen() {
         renderItem={({ item }) => <CarListItem car={item} />}
         keyExtractor={(item) => item.id}
         contentContainerStyle={styles.listContent}
+        numColumns={1}
         ListHeaderComponent={
           <>
             <View style={styles.searchContainer}>
               <Pressable style={styles.searchBar} onPress={focusSearch}>
-                <Search size={20} color={Colors.secondaryText} style={styles.searchIcon} />
+                <Search size={18} color={Colors.secondaryText} style={styles.searchIcon} />
                 <TextInput
                   ref={searchInputRef}
                   style={styles.searchInput}
@@ -75,7 +81,7 @@ export default function HomeScreen() {
               
               <Link href="/filter" asChild>
                 <Pressable style={styles.filterButton}>
-                  <Filter size={20} color={Colors.primary} />
+                  <Filter size={18} color={Colors.primary} />
                   {activeFiltersCount > 0 && (
                     <View style={styles.filterBadge}>
                       <Text style={styles.filterBadgeText}>{activeFiltersCount}</Text>
@@ -108,9 +114,9 @@ export default function HomeScreen() {
             
             <Link href="/saved-searches" asChild>
               <Pressable style={styles.savedSearchesButton}>
-                <Bookmark size={20} color={Colors.primary} />
+                <Bookmark size={18} color={Colors.primary} />
                 <Text style={styles.savedSearchesText}>Gespeicherte Suchen ({savedSearches.length})</Text>
-                <ChevronRight size={16} color={Colors.secondaryText} />
+                <ChevronRight size={14} color={Colors.secondaryText} />
               </Pressable>
             </Link>
             
@@ -153,13 +159,13 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.background,
   },
   listContent: {
-    padding: 16,
+    padding: 12,
     minHeight: '100%',
   },
   searchContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 12,
+    marginBottom: 10,
   },
   searchBar: {
     flex: 1,
@@ -167,26 +173,26 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: Colors.card,
     borderRadius: 10,
-    paddingHorizontal: 12,
-    height: 44,
+    paddingHorizontal: 10,
+    height: 40,
   },
   searchIcon: {
-    marginRight: 8,
+    marginRight: 6,
   },
   searchInput: {
     flex: 1,
     height: '100%',
-    fontSize: 16,
+    fontSize: 14,
     color: Colors.text,
   },
   filterButton: {
-    width: 44,
-    height: 44,
-    borderRadius: 22,
+    width: 40,
+    height: 40,
+    borderRadius: 20,
     backgroundColor: Colors.card,
     alignItems: 'center',
     justifyContent: 'center',
-    marginLeft: 12,
+    marginLeft: 10,
   },
   filterBadge: {
     position: 'absolute',
@@ -194,71 +200,71 @@ const styles = StyleSheet.create({
     right: -4,
     backgroundColor: Colors.primary,
     borderRadius: 10,
-    minWidth: 20,
-    height: 20,
+    minWidth: 18,
+    height: 18,
     alignItems: 'center',
     justifyContent: 'center',
   },
   filterBadgeText: {
     color: Colors.background,
-    fontSize: 12,
+    fontSize: 10,
     fontWeight: '600',
-    paddingHorizontal: 6,
+    paddingHorizontal: 4,
   },
   resetButton: {
     alignSelf: 'flex-start',
-    marginBottom: 12,
-    paddingHorizontal: 12,
-    paddingVertical: 6,
+    marginBottom: 10,
+    paddingHorizontal: 10,
+    paddingVertical: 4,
     backgroundColor: Colors.card,
-    borderRadius: 16,
+    borderRadius: 14,
   },
   resetText: {
     color: Colors.secondaryText,
-    fontSize: 14,
+    fontSize: 12,
   },
   quickFiltersContainer: {
-    paddingBottom: 12,
-    gap: 8,
+    paddingBottom: 10,
+    gap: 6,
   },
   chip: {
-    paddingHorizontal: 10,
-    paddingVertical: 6,
-    borderRadius: 16,
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    borderRadius: 14,
     backgroundColor: Colors.card,
     borderWidth: 1,
     borderColor: Colors.border,
   },
   chipText: {
-    fontSize: 12,
+    fontSize: 11,
     color: Colors.text,
   },
   savedSearchesButton: {
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: Colors.card,
-    borderRadius: 12,
-    padding: 16,
-    marginBottom: 16,
+    borderRadius: 10,
+    padding: 12,
+    marginBottom: 12,
   },
   savedSearchesText: {
     flex: 1,
-    marginLeft: 12,
-    fontSize: 16,
+    marginLeft: 10,
+    fontSize: 14,
     fontWeight: '500',
     color: Colors.primary,
   },
   header: {
-    marginBottom: 16,
+    marginBottom: 12,
   },
   title: {
-    fontSize: 24,
+    fontSize: 22,
     fontWeight: '700',
     color: Colors.text,
-    marginBottom: 4,
+    marginBottom: 2,
   },
   subtitle: {
-    fontSize: 16,
+    fontSize: 14,
     color: Colors.secondaryText,
   },
   loadingContainer: {

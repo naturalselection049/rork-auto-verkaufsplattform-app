@@ -339,7 +339,7 @@ export default function FilterScreen() {
             router.back();
           }}
         >
-          <X size={20} color={Colors.secondaryText} />
+          <X size={18} color={Colors.secondaryText} />
           <Text style={styles.resetButtonText}>Zurücksetzen</Text>
         </Pressable>
         
@@ -347,7 +347,7 @@ export default function FilterScreen() {
           style={styles.saveButton} 
           onPress={() => setShowSaveSearch(!showSaveSearch)}
         >
-          <Save size={20} color={Colors.secondaryText} />
+          <Save size={18} color={Colors.secondaryText} />
         </Pressable>
         
         <Pressable style={styles.applyButton} onPress={applyFilters}>
@@ -364,16 +364,16 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.background,
   },
   scrollContent: {
-    padding: 16,
+    padding: 14,
   },
   section: {
-    marginBottom: 20, // Reduced spacing between sections
+    marginBottom: 16,
   },
   sectionTitle: {
-    fontSize: 16, // Reduced font size
+    fontSize: 14,
     fontWeight: '600',
     color: Colors.text,
-    marginBottom: 12, // Reduced spacing
+    marginBottom: 8,
   },
   rangeInputs: {
     flexDirection: 'row',
@@ -381,50 +381,50 @@ const styles = StyleSheet.create({
   },
   input: {
     flex: 1,
-    height: 44, // Reduced height
+    height: 40,
     borderWidth: 1,
     borderColor: Colors.border,
     borderRadius: 8,
-    paddingHorizontal: 12,
-    fontSize: 14, // Reduced font size
+    paddingHorizontal: 10,
+    fontSize: 13,
   },
   fullWidthInput: {
-    height: 44, // Reduced height
+    height: 40,
     borderWidth: 1,
     borderColor: Colors.border,
     borderRadius: 8,
-    paddingHorizontal: 12,
-    fontSize: 14, // Reduced font size
+    paddingHorizontal: 10,
+    fontSize: 13,
   },
   rangeSeparator: {
-    marginHorizontal: 12,
-    fontSize: 14, // Reduced font size
+    marginHorizontal: 8,
+    fontSize: 13,
     color: Colors.secondaryText,
   },
   chipsContainer: {
     paddingRight: 16,
-    gap: 6, // Reduced gap
+    gap: 6,
   },
   optionsContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    gap: 6, // Reduced gap
+    gap: 6,
   },
   chip: {
-    paddingHorizontal: 12, // Reduced padding
-    paddingVertical: 8, // Reduced padding
+    paddingHorizontal: 10,
+    paddingVertical: 6,
     borderRadius: 16,
     backgroundColor: Colors.card,
     borderWidth: 1,
     borderColor: Colors.border,
-    marginBottom: 6, // Added margin bottom for wrapped items
+    marginBottom: 6,
   },
   chipSelected: {
     backgroundColor: Colors.primary,
     borderColor: Colors.primary,
   },
   chipText: {
-    fontSize: 13, // Reduced font size
+    fontSize: 12,
     color: Colors.text,
   },
   chipTextSelected: {
@@ -432,24 +432,25 @@ const styles = StyleSheet.create({
   },
   saveSearchSection: {
     marginBottom: 24,
-    padding: 16,
+    padding: 14,
     backgroundColor: Colors.card,
     borderRadius: 12,
   },
   saveSearchButton: {
-    marginTop: 12,
+    marginTop: 10,
     backgroundColor: Colors.primary,
     borderRadius: 8,
-    paddingVertical: 12,
+    paddingVertical: 10,
     alignItems: 'center',
   },
   saveSearchButtonText: {
     color: Colors.background,
     fontWeight: '600',
+    fontSize: 13,
   },
   footer: {
     flexDirection: 'row',
-    padding: 16,
+    padding: 14,
     borderTopWidth: 1,
     borderTopColor: Colors.border,
     backgroundColor: Colors.background,
@@ -458,36 +459,36 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    paddingHorizontal: 16,
-    height: 48,
-    borderRadius: 24,
+    paddingHorizontal: 14,
+    height: 44,
+    borderRadius: 22,
     backgroundColor: Colors.card,
-    marginRight: 12,
+    marginRight: 10,
   },
   resetButtonText: {
-    marginLeft: 8,
-    fontSize: 14, // Reduced font size
+    marginLeft: 6,
+    fontSize: 13,
     color: Colors.secondaryText,
   },
   saveButton: {
-    width: 48,
-    height: 48,
-    borderRadius: 24,
+    width: 44,
+    height: 44,
+    borderRadius: 22,
     backgroundColor: Colors.card,
     alignItems: 'center',
     justifyContent: 'center',
-    marginRight: 12,
+    marginRight: 10,
   },
   applyButton: {
     flex: 1,
-    height: 48,
-    borderRadius: 24,
+    height: 44,
+    borderRadius: 22,
     backgroundColor: Colors.primary,
     alignItems: 'center',
     justifyContent: 'center',
   },
   applyButtonText: {
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: '600',
     color: Colors.background,
   },

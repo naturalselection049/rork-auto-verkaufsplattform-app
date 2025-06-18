@@ -16,7 +16,8 @@ export function CarListItem({ car }: CarListItemProps) {
   const { isFavorite, addFavorite, removeFavorite } = useFavoritesStore();
   const isFav = isFavorite(car.id);
 
-  const toggleFavorite = () => {
+  const toggleFavorite = (e: any) => {
+    e.stopPropagation();
     if (isFav) {
       removeFavorite(car.id);
     } else {
@@ -37,13 +38,10 @@ export function CarListItem({ car }: CarListItemProps) {
           />
           <Pressable 
             style={styles.favoriteButton} 
-            onPress={(e) => {
-              e.stopPropagation();
-              toggleFavorite();
-            }}
+            onPress={toggleFavorite}
           >
             <Heart 
-              size={20} 
+              size={18} 
               color={isFav ? Colors.favorite : Colors.background} 
               fill={isFav ? Colors.favorite : 'transparent'} 
             />
@@ -67,27 +65,27 @@ export function CarListItem({ car }: CarListItemProps) {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: Colors.background,
-    borderRadius: 10,
-    marginBottom: 12,
+    borderRadius: 8,
+    marginBottom: 10,
     overflow: 'hidden',
     ...Platform.select({
       ios: {
         shadowColor: Colors.shadow,
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.1,
-        shadowRadius: 6,
+        shadowRadius: 4,
       },
       android: {
-        elevation: 3,
+        elevation: 2,
       },
       web: {
-        boxShadow: '0px 2px 6px rgba(0, 0, 0, 0.08)',
+        boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.08)',
       },
     }),
   },
   imageContainer: {
     position: 'relative',
-    height: 140, // Reduced from 180
+    height: 120,
     width: '100%',
   },
   image: {
@@ -99,8 +97,8 @@ const styles = StyleSheet.create({
     top: 8,
     right: 8,
     backgroundColor: 'rgba(255, 255, 255, 0.8)',
-    borderRadius: 16,
-    padding: 6,
+    borderRadius: 14,
+    padding: 5,
     ...Platform.select({
       ios: {
         shadowColor: Colors.shadow,
@@ -114,31 +112,31 @@ const styles = StyleSheet.create({
     }),
   },
   infoContainer: {
-    padding: 10,
+    padding: 8,
   },
   title: {
-    fontSize: 14,
+    fontSize: 13,
     fontWeight: '600',
     marginBottom: 2,
     color: Colors.text,
   },
   price: {
-    fontSize: 16,
+    fontSize: 15,
     fontWeight: '700',
     color: Colors.price,
-    marginBottom: 4,
+    marginBottom: 3,
   },
   detailsRow: {
     flexDirection: 'row',
-    marginBottom: 4,
-    gap: 8,
+    marginBottom: 3,
+    gap: 6,
   },
   detail: {
-    fontSize: 12,
+    fontSize: 11,
     color: Colors.secondaryText,
   },
   location: {
-    fontSize: 12,
+    fontSize: 11,
     color: Colors.secondaryText,
   },
 });

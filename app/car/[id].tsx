@@ -186,25 +186,25 @@ export default function CarDetailScreen() {
           
           <View style={styles.specs}>
             <View style={styles.specItem}>
-              <Calendar size={18} color={Colors.primary} />
+              <Calendar size={16} color={Colors.primary} />
               <Text style={styles.specValue}>{foundCar.year}</Text>
               <Text style={styles.specLabel}>Baujahr</Text>
             </View>
             
             <View style={styles.specItem}>
-              <Gauge size={18} color={Colors.primary} />
+              <Gauge size={16} color={Colors.primary} />
               <Text style={styles.specValue}>{foundCar.mileage.toLocaleString()} km</Text>
               <Text style={styles.specLabel}>Kilometer</Text>
             </View>
             
             <View style={styles.specItem}>
-              <Fuel size={18} color={Colors.primary} />
+              <Fuel size={16} color={Colors.primary} />
               <Text style={styles.specValue}>{foundCar.fuelType}</Text>
               <Text style={styles.specLabel}>Kraftstoff</Text>
             </View>
             
             <View style={styles.specItem}>
-              <Zap size={18} color={Colors.primary} />
+              <Zap size={16} color={Colors.primary} />
               <Text style={styles.specValue}>{foundCar.power} PS</Text>
               <Text style={styles.specLabel}>Leistung</Text>
             </View>
@@ -345,20 +345,20 @@ const styles = StyleSheet.create({
   },
   specItem: {
     alignItems: 'center',
-    width: '23%', // Adjusted to give more space between items
+    width: '23%',
   },
   specValue: {
-    fontSize: 14, // Reduced font size
+    fontSize: 13,
     fontWeight: '600',
     color: Colors.text,
     marginTop: 6,
     marginBottom: 2,
-    textAlign: 'center', // Center text for better appearance
+    textAlign: 'center',
   },
   specLabel: {
-    fontSize: 11, // Reduced font size
+    fontSize: 10,
     color: Colors.secondaryText,
-    textAlign: 'center', // Center text for better appearance
+    textAlign: 'center',
   },
   calculatorButton: {
     flexDirection: 'row',

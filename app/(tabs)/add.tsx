@@ -124,6 +124,27 @@ export default function AddListingScreen() {
   const [showManualDataForm, setShowManualDataForm] = useState(false);
   const [featureInput, setFeatureInput] = useState('');
   
+  // Additional fields
+  const [condition, setCondition] = useState('');
+  const [emissionClass, setEmissionClass] = useState('');
+  const [lastInspection, setLastInspection] = useState('');
+  const [owners, setOwners] = useState('');
+  const [warranty, setWarranty] = useState('');
+  const [accidentFree, setAccidentFree] = useState('');
+  const [interiorColor, setInteriorColor] = useState('');
+  const [interiorMaterial, setInteriorMaterial] = useState('');
+  const [registrationDate, setRegistrationDate] = useState('');
+  const [consumptionCombined, setConsumptionCombined] = useState('');
+  const [consumptionUrban, setConsumptionUrban] = useState('');
+  const [consumptionExtraUrban, setConsumptionExtraUrban] = useState('');
+  const [co2Emission, setCo2Emission] = useState('');
+  const [driveType, setDriveType] = useState('');
+  const [cylinderCapacity, setCylinderCapacity] = useState('');
+  const [cylinders, setCylinders] = useState('');
+  const [weight, setWeight] = useState('');
+  const [taxPerYear, setTaxPerYear] = useState('');
+  const [insuranceClass, setInsuranceClass] = useState('');
+  
   const cameraRef = useRef<any>(null);
 
   const openCamera = async () => {
@@ -370,207 +391,436 @@ export default function AddListingScreen() {
             <Text style={styles.modalTitle}>Fahrzeugdaten</Text>
             
             <ScrollView style={styles.modalScrollContent}>
-              <View style={styles.formItem}>
-                <Text style={styles.formLabel}>Marke*</Text>
-                <TextInput
-                  style={styles.formInput}
-                  placeholder="Wähle eine Marke"
-                  value={brand}
-                  onChangeText={setBrand}
-                />
-              </View>
-              
-              <View style={styles.formItem}>
-                <Text style={styles.formLabel}>Modell*</Text>
-                <TextInput
-                  style={styles.formInput}
-                  placeholder="Wähle ein Modell"
-                  value={model}
-                  onChangeText={setModel}
-                />
-              </View>
-              
-              <View style={styles.formItem}>
-                <Text style={styles.formLabel}>Baujahr*</Text>
-                <TextInput
-                  style={styles.formInput}
-                  placeholder="Wähle ein Baujahr"
-                  keyboardType="numeric"
-                  value={year}
-                  onChangeText={setYear}
-                />
-              </View>
-              
-              <View style={styles.formItem}>
-                <Text style={styles.formLabel}>Kilometerstand*</Text>
-                <TextInput
-                  style={styles.formInput}
-                  placeholder="Gib den Kilometerstand ein"
-                  keyboardType="numeric"
-                  value={mileage}
-                  onChangeText={setMileage}
-                />
-              </View>
-              
-              <View style={styles.formItem}>
-                <Text style={styles.formLabel}>Kraftstoffart*</Text>
-                <TextInput
-                  style={styles.formInput}
-                  placeholder="Wähle eine Kraftstoffart"
-                  value={fuelType}
-                  onChangeText={setFuelType}
-                />
-              </View>
-
-              <View style={styles.formItem}>
-                <Text style={styles.formLabel}>Getriebe</Text>
-                <TextInput
-                  style={styles.formInput}
-                  placeholder="Automatik oder Manuell"
-                  value={transmission}
-                  onChangeText={setTransmission}
-                />
-              </View>
-
-              <View style={styles.formItem}>
-                <Text style={styles.formLabel}>Leistung (PS)</Text>
-                <TextInput
-                  style={styles.formInput}
-                  placeholder="z.B. 150"
-                  keyboardType="numeric"
-                  value={power}
-                  onChangeText={setPower}
-                />
-              </View>
-
-              <View style={styles.formItem}>
-                <Text style={styles.formLabel}>Farbe</Text>
-                <TextInput
-                  style={styles.formInput}
-                  placeholder="z.B. Schwarz"
-                  value={color}
-                  onChangeText={setColor}
-                />
-              </View>
-
-              <View style={styles.formItem}>
-                <Text style={styles.formLabel}>Fahrzeugtyp</Text>
-                <TextInput
-                  style={styles.formInput}
-                  placeholder="z.B. Limousine, SUV, Kombi"
-                  value={bodyType}
-                  onChangeText={setBodyType}
-                />
-              </View>
-
-              <View style={styles.formItem}>
-                <Text style={styles.formLabel}>Anzahl Türen</Text>
-                <TextInput
-                  style={styles.formInput}
-                  placeholder="z.B. 5"
-                  keyboardType="numeric"
-                  value={doors}
-                  onChangeText={setDoors}
-                />
-              </View>
-
-              <View style={styles.formItem}>
-                <Text style={styles.formLabel}>Anzahl Sitze</Text>
-                <TextInput
-                  style={styles.formInput}
-                  placeholder="z.B. 5"
-                  keyboardType="numeric"
-                  value={seats}
-                  onChangeText={setSeats}
-                />
-              </View>
-
-              <View style={styles.formItem}>
-                <Text style={styles.formLabel}>Hubraum (L)</Text>
-                <TextInput
-                  style={styles.formInput}
-                  placeholder="z.B. 2.0"
-                  keyboardType="numeric"
-                  value={engineSize}
-                  onChangeText={setEngineSize}
-                />
-              </View>
-
-              <View style={styles.formItem}>
-                <Text style={styles.formLabel}>Preis (€)*</Text>
-                <TextInput
-                  style={styles.formInput}
-                  placeholder="Gib den Verkaufspreis ein"
-                  keyboardType="numeric"
-                  value={price}
-                  onChangeText={setPrice}
-                />
-              </View>
-
-              <View style={styles.formItem}>
-                <Text style={styles.formLabel}>Standort*</Text>
-                <TextInput
-                  style={styles.formInput}
-                  placeholder="z.B. Berlin"
-                  value={location}
-                  onChangeText={setLocation}
-                />
-              </View>
-
-              <View style={styles.formItem}>
-                <Text style={styles.formLabel}>Anbietertyp*</Text>
-                <TextInput
-                  style={styles.formInput}
-                  placeholder="Privat oder Händler"
-                  value={sellerType}
-                  onChangeText={setSellerType}
-                />
-              </View>
-
-              <View style={styles.formItem}>
-                <Text style={styles.formLabel}>Beschreibung</Text>
-                <TextInput
-                  style={[styles.formInput, styles.textArea]}
-                  placeholder="Beschreibe dein Fahrzeug"
-                  multiline
-                  numberOfLines={4}
-                  value={description}
-                  onChangeText={setDescription}
-                />
-              </View>
-
-              <View style={styles.formItem}>
-                <Text style={styles.formLabel}>Ausstattungsmerkmale</Text>
-                <View style={styles.featureInputContainer}>
+              {/* Basic Information */}
+              <View style={styles.formSection}>
+                <Text style={styles.formSectionTitle}>Grundinformationen</Text>
+                
+                <View style={styles.formItem}>
+                  <Text style={styles.formLabel}>Marke*</Text>
                   <TextInput
-                    style={styles.featureInput}
-                    placeholder="z.B. Klimaanlage"
-                    value={featureInput}
-                    onChangeText={setFeatureInput}
+                    style={styles.formInput}
+                    placeholder="Wähle eine Marke"
+                    value={brand}
+                    onChangeText={setBrand}
                   />
-                  <Pressable 
-                    style={styles.addFeatureButton}
-                    onPress={addFeature}
-                  >
-                    <Text style={styles.addFeatureButtonText}>+</Text>
-                  </Pressable>
                 </View>
                 
-                {features.length > 0 && (
-                  <View style={styles.featuresList}>
-                    {features.map((feature, index) => (
-                      <View key={index} style={styles.featureTag}>
-                        <Text style={styles.featureTagText}>{feature}</Text>
-                        <Pressable 
-                          style={styles.removeFeatureButton}
-                          onPress={() => removeFeature(index)}
-                        >
-                          <X size={12} color={Colors.secondaryText} />
-                        </Pressable>
-                      </View>
-                    ))}
+                <View style={styles.formItem}>
+                  <Text style={styles.formLabel}>Modell*</Text>
+                  <TextInput
+                    style={styles.formInput}
+                    placeholder="Wähle ein Modell"
+                    value={model}
+                    onChangeText={setModel}
+                  />
+                </View>
+                
+                <View style={styles.formItem}>
+                  <Text style={styles.formLabel}>Baujahr*</Text>
+                  <TextInput
+                    style={styles.formInput}
+                    placeholder="Wähle ein Baujahr"
+                    keyboardType="numeric"
+                    value={year}
+                    onChangeText={setYear}
+                  />
+                </View>
+                
+                <View style={styles.formItem}>
+                  <Text style={styles.formLabel}>Erstzulassung</Text>
+                  <TextInput
+                    style={styles.formInput}
+                    placeholder="MM/YYYY"
+                    value={registrationDate}
+                    onChangeText={setRegistrationDate}
+                  />
+                </View>
+                
+                <View style={styles.formItem}>
+                  <Text style={styles.formLabel}>Kilometerstand*</Text>
+                  <TextInput
+                    style={styles.formInput}
+                    placeholder="Gib den Kilometerstand ein"
+                    keyboardType="numeric"
+                    value={mileage}
+                    onChangeText={setMileage}
+                  />
+                </View>
+                
+                <View style={styles.formItem}>
+                  <Text style={styles.formLabel}>Preis (€)*</Text>
+                  <TextInput
+                    style={styles.formInput}
+                    placeholder="Gib den Verkaufspreis ein"
+                    keyboardType="numeric"
+                    value={price}
+                    onChangeText={setPrice}
+                  />
+                </View>
+                
+                <View style={styles.formItem}>
+                  <Text style={styles.formLabel}>Standort*</Text>
+                  <TextInput
+                    style={styles.formInput}
+                    placeholder="z.B. Berlin"
+                    value={location}
+                    onChangeText={setLocation}
+                  />
+                </View>
+                
+                <View style={styles.formItem}>
+                  <Text style={styles.formLabel}>Anbietertyp*</Text>
+                  <TextInput
+                    style={styles.formInput}
+                    placeholder="Privat oder Händler"
+                    value={sellerType}
+                    onChangeText={setSellerType}
+                  />
+                </View>
+              </View>
+              
+              {/* Technical Specifications */}
+              <View style={styles.formSection}>
+                <Text style={styles.formSectionTitle}>Technische Daten</Text>
+                
+                <View style={styles.formItem}>
+                  <Text style={styles.formLabel}>Kraftstoffart*</Text>
+                  <TextInput
+                    style={styles.formInput}
+                    placeholder="Wähle eine Kraftstoffart"
+                    value={fuelType}
+                    onChangeText={setFuelType}
+                  />
+                </View>
+
+                <View style={styles.formItem}>
+                  <Text style={styles.formLabel}>Getriebe</Text>
+                  <TextInput
+                    style={styles.formInput}
+                    placeholder="Automatik oder Manuell"
+                    value={transmission}
+                    onChangeText={setTransmission}
+                  />
+                </View>
+
+                <View style={styles.formItem}>
+                  <Text style={styles.formLabel}>Leistung (PS)</Text>
+                  <TextInput
+                    style={styles.formInput}
+                    placeholder="z.B. 150"
+                    keyboardType="numeric"
+                    value={power}
+                    onChangeText={setPower}
+                  />
+                </View>
+                
+                <View style={styles.formItem}>
+                  <Text style={styles.formLabel}>Hubraum (L)</Text>
+                  <TextInput
+                    style={styles.formInput}
+                    placeholder="z.B. 2.0"
+                    keyboardType="numeric"
+                    value={engineSize}
+                    onChangeText={setEngineSize}
+                  />
+                </View>
+                
+                <View style={styles.formItem}>
+                  <Text style={styles.formLabel}>Zylinderkapazität (ccm)</Text>
+                  <TextInput
+                    style={styles.formInput}
+                    placeholder="z.B. 1998"
+                    keyboardType="numeric"
+                    value={cylinderCapacity}
+                    onChangeText={setCylinderCapacity}
+                  />
+                </View>
+                
+                <View style={styles.formItem}>
+                  <Text style={styles.formLabel}>Anzahl Zylinder</Text>
+                  <TextInput
+                    style={styles.formInput}
+                    placeholder="z.B. 4"
+                    keyboardType="numeric"
+                    value={cylinders}
+                    onChangeText={setCylinders}
+                  />
+                </View>
+                
+                <View style={styles.formItem}>
+                  <Text style={styles.formLabel}>Antriebsart</Text>
+                  <TextInput
+                    style={styles.formInput}
+                    placeholder="z.B. Frontantrieb, Allrad"
+                    value={driveType}
+                    onChangeText={setDriveType}
+                  />
+                </View>
+                
+                <View style={styles.formItem}>
+                  <Text style={styles.formLabel}>Emissionsklasse</Text>
+                  <TextInput
+                    style={styles.formInput}
+                    placeholder="z.B. Euro 6"
+                    value={emissionClass}
+                    onChangeText={setEmissionClass}
+                  />
+                </View>
+                
+                <View style={styles.formItem}>
+                  <Text style={styles.formLabel}>CO2-Emission (g/km)</Text>
+                  <TextInput
+                    style={styles.formInput}
+                    placeholder="z.B. 120"
+                    keyboardType="numeric"
+                    value={co2Emission}
+                    onChangeText={setCo2Emission}
+                  />
+                </View>
+                
+                <View style={styles.formItem}>
+                  <Text style={styles.formLabel}>Verbrauch kombiniert (l/100km)</Text>
+                  <TextInput
+                    style={styles.formInput}
+                    placeholder="z.B. 6.5"
+                    keyboardType="numeric"
+                    value={consumptionCombined}
+                    onChangeText={setConsumptionCombined}
+                  />
+                </View>
+                
+                <View style={styles.formItem}>
+                  <Text style={styles.formLabel}>Verbrauch innerorts (l/100km)</Text>
+                  <TextInput
+                    style={styles.formInput}
+                    placeholder="z.B. 8.2"
+                    keyboardType="numeric"
+                    value={consumptionUrban}
+                    onChangeText={setConsumptionUrban}
+                  />
+                </View>
+                
+                <View style={styles.formItem}>
+                  <Text style={styles.formLabel}>Verbrauch außerorts (l/100km)</Text>
+                  <TextInput
+                    style={styles.formInput}
+                    placeholder="z.B. 5.3"
+                    keyboardType="numeric"
+                    value={consumptionExtraUrban}
+                    onChangeText={setConsumptionExtraUrban}
+                  />
+                </View>
+                
+                <View style={styles.formItem}>
+                  <Text style={styles.formLabel}>Leergewicht (kg)</Text>
+                  <TextInput
+                    style={styles.formInput}
+                    placeholder="z.B. 1500"
+                    keyboardType="numeric"
+                    value={weight}
+                    onChangeText={setWeight}
+                  />
+                </View>
+              </View>
+              
+              {/* Vehicle Details */}
+              <View style={styles.formSection}>
+                <Text style={styles.formSectionTitle}>Fahrzeugdetails</Text>
+                
+                <View style={styles.formItem}>
+                  <Text style={styles.formLabel}>Fahrzeugtyp</Text>
+                  <TextInput
+                    style={styles.formInput}
+                    placeholder="z.B. Limousine, SUV, Kombi"
+                    value={bodyType}
+                    onChangeText={setBodyType}
+                  />
+                </View>
+
+                <View style={styles.formItem}>
+                  <Text style={styles.formLabel}>Anzahl Türen</Text>
+                  <TextInput
+                    style={styles.formInput}
+                    placeholder="z.B. 5"
+                    keyboardType="numeric"
+                    value={doors}
+                    onChangeText={setDoors}
+                  />
+                </View>
+
+                <View style={styles.formItem}>
+                  <Text style={styles.formLabel}>Anzahl Sitze</Text>
+                  <TextInput
+                    style={styles.formInput}
+                    placeholder="z.B. 5"
+                    keyboardType="numeric"
+                    value={seats}
+                    onChangeText={setSeats}
+                  />
+                </View>
+                
+                <View style={styles.formItem}>
+                  <Text style={styles.formLabel}>Außenfarbe</Text>
+                  <TextInput
+                    style={styles.formInput}
+                    placeholder="z.B. Schwarz"
+                    value={color}
+                    onChangeText={setColor}
+                  />
+                </View>
+                
+                <View style={styles.formItem}>
+                  <Text style={styles.formLabel}>Innenfarbe</Text>
+                  <TextInput
+                    style={styles.formInput}
+                    placeholder="z.B. Schwarz"
+                    value={interiorColor}
+                    onChangeText={setInteriorColor}
+                  />
+                </View>
+                
+                <View style={styles.formItem}>
+                  <Text style={styles.formLabel}>Innenausstattung</Text>
+                  <TextInput
+                    style={styles.formInput}
+                    placeholder="z.B. Leder, Stoff"
+                    value={interiorMaterial}
+                    onChangeText={setInteriorMaterial}
+                  />
+                </View>
+              </View>
+              
+              {/* Condition & History */}
+              <View style={styles.formSection}>
+                <Text style={styles.formSectionTitle}>Zustand & Historie</Text>
+                
+                <View style={styles.formItem}>
+                  <Text style={styles.formLabel}>Fahrzeugzustand</Text>
+                  <TextInput
+                    style={styles.formInput}
+                    placeholder="z.B. Sehr gut, Gebraucht"
+                    value={condition}
+                    onChangeText={setCondition}
+                  />
+                </View>
+                
+                <View style={styles.formItem}>
+                  <Text style={styles.formLabel}>Unfallfrei</Text>
+                  <TextInput
+                    style={styles.formInput}
+                    placeholder="Ja/Nein"
+                    value={accidentFree}
+                    onChangeText={setAccidentFree}
+                  />
+                </View>
+                
+                <View style={styles.formItem}>
+                  <Text style={styles.formLabel}>Anzahl Vorbesitzer</Text>
+                  <TextInput
+                    style={styles.formInput}
+                    placeholder="z.B. 1"
+                    keyboardType="numeric"
+                    value={owners}
+                    onChangeText={setOwners}
+                  />
+                </View>
+                
+                <View style={styles.formItem}>
+                  <Text style={styles.formLabel}>Letzte Hauptuntersuchung</Text>
+                  <TextInput
+                    style={styles.formInput}
+                    placeholder="MM/YYYY"
+                    value={lastInspection}
+                    onChangeText={setLastInspection}
+                  />
+                </View>
+                
+                <View style={styles.formItem}>
+                  <Text style={styles.formLabel}>Garantie</Text>
+                  <TextInput
+                    style={styles.formInput}
+                    placeholder="z.B. Herstellergarantie bis MM/YYYY"
+                    value={warranty}
+                    onChangeText={setWarranty}
+                  />
+                </View>
+              </View>
+              
+              {/* Costs */}
+              <View style={styles.formSection}>
+                <Text style={styles.formSectionTitle}>Kosten</Text>
+                
+                <View style={styles.formItem}>
+                  <Text style={styles.formLabel}>Kfz-Steuer pro Jahr (€)</Text>
+                  <TextInput
+                    style={styles.formInput}
+                    placeholder="z.B. 150"
+                    keyboardType="numeric"
+                    value={taxPerYear}
+                    onChangeText={setTaxPerYear}
+                  />
+                </View>
+                
+                <View style={styles.formItem}>
+                  <Text style={styles.formLabel}>Versicherungsklasse</Text>
+                  <TextInput
+                    style={styles.formInput}
+                    placeholder="z.B. SF 10"
+                    value={insuranceClass}
+                    onChangeText={setInsuranceClass}
+                  />
+                </View>
+              </View>
+              
+              {/* Description & Features */}
+              <View style={styles.formSection}>
+                <Text style={styles.formSectionTitle}>Beschreibung & Ausstattung</Text>
+                
+                <View style={styles.formItem}>
+                  <Text style={styles.formLabel}>Beschreibung</Text>
+                  <TextInput
+                    style={[styles.formInput, styles.textArea]}
+                    placeholder="Beschreibe dein Fahrzeug"
+                    multiline
+                    numberOfLines={4}
+                    value={description}
+                    onChangeText={setDescription}
+                  />
+                </View>
+
+                <View style={styles.formItem}>
+                  <Text style={styles.formLabel}>Ausstattungsmerkmale</Text>
+                  <View style={styles.featureInputContainer}>
+                    <TextInput
+                      style={styles.featureInput}
+                      placeholder="z.B. Klimaanlage"
+                      value={featureInput}
+                      onChangeText={setFeatureInput}
+                    />
+                    <Pressable 
+                      style={styles.addFeatureButton}
+                      onPress={addFeature}
+                    >
+                      <Text style={styles.addFeatureButtonText}>+</Text>
+                    </Pressable>
                   </View>
-                )}
+                  
+                  {features.length > 0 && (
+                    <View style={styles.featuresList}>
+                      {features.map((feature, index) => (
+                        <View key={index} style={styles.featureTag}>
+                          <Text style={styles.featureTagText}>{feature}</Text>
+                          <Pressable 
+                            style={styles.removeFeatureButton}
+                            onPress={() => removeFeature(index)}
+                          >
+                            <X size={12} color={Colors.secondaryText} />
+                          </Pressable>
+                        </View>
+                      ))}
+                    </View>
+                  )}
+                </View>
               </View>
 
               <Text style={styles.requiredFieldsNote}>* Pflichtfelder</Text>
@@ -683,7 +933,17 @@ const styles = StyleSheet.create({
     fontWeight: '500',
   },
   formSection: {
-    marginBottom: 24,
+    marginBottom: 20,
+  },
+  formSectionTitle: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: Colors.text,
+    marginBottom: 12,
+    backgroundColor: Colors.card,
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+    borderRadius: 8,
   },
   vinContainer: {
     flexDirection: 'row',
@@ -733,21 +993,21 @@ const styles = StyleSheet.create({
     color: Colors.primary,
   },
   formItem: {
-    marginBottom: 16,
+    marginBottom: 14,
   },
   formLabel: {
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: '500',
     color: Colors.text,
-    marginBottom: 8,
+    marginBottom: 6,
   },
   formInput: {
-    height: 48,
+    height: 42,
     borderWidth: 1,
     borderColor: Colors.border,
     borderRadius: 8,
     paddingHorizontal: 12,
-    fontSize: 16,
+    fontSize: 14,
   },
   textArea: {
     height: 100,
@@ -760,17 +1020,17 @@ const styles = StyleSheet.create({
   },
   featureInput: {
     flex: 1,
-    height: 48,
+    height: 42,
     borderWidth: 1,
     borderColor: Colors.border,
     borderTopLeftRadius: 8,
     borderBottomLeftRadius: 8,
     paddingHorizontal: 12,
-    fontSize: 16,
+    fontSize: 14,
   },
   addFeatureButton: {
-    width: 48,
-    height: 48,
+    width: 42,
+    height: 42,
     backgroundColor: Colors.primary,
     borderTopRightRadius: 8,
     borderBottomRightRadius: 8,
@@ -885,7 +1145,7 @@ const styles = StyleSheet.create({
     width: '90%',
     backgroundColor: Colors.background,
     borderRadius: 12,
-    padding: 20,
+    padding: 16,
     maxHeight: '90%',
   },
   modalScrollContent: {
@@ -895,17 +1155,17 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: '600',
     color: Colors.text,
-    marginBottom: 20,
+    marginBottom: 16,
     textAlign: 'center',
   },
   modalButtons: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginTop: 20,
+    marginTop: 16,
   },
   modalButton: {
     flex: 1,
-    height: 48,
+    height: 44,
     borderRadius: 8,
     alignItems: 'center',
     justifyContent: 'center',
