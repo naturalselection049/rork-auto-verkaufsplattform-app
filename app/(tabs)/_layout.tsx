@@ -1,6 +1,6 @@
 import React from "react";
 import { Tabs } from "expo-router";
-import { Home, PlusCircle, BarChart2, User } from "lucide-react-native";
+import { Home, PlusCircle, BarChart2, User, MessageSquare } from "lucide-react-native";
 import { Colors } from "@/constants/colors";
 
 export default function TabLayout() {
@@ -25,6 +25,13 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
+        name="comparison"
+        options={{
+          title: "Vergleich",
+          tabBarIcon: ({ color }) => <BarChart2 size={24} color={color} />,
+        }}
+      />
+      <Tabs.Screen
         name="add"
         options={{
           title: "Inserieren",
@@ -32,10 +39,10 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="comparison"
+        name="forum"
         options={{
-          title: "Vergleich",
-          tabBarIcon: ({ color }) => <BarChart2 size={24} color={color} />,
+          title: "Forum",
+          tabBarIcon: ({ color }) => <MessageSquare size={24} color={color} />,
         }}
       />
       <Tabs.Screen
