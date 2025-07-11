@@ -2,8 +2,12 @@ import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { StatusBar } from 'expo-status-bar';
+import { useAuthStore } from '@/store/auth';
+import { View, ActivityIndicator } from 'react-native';
+import { Colors } from '@/constants/colors';
+import { AuthGuard } from '@/components/AuthGuard';
 
 export const unstable_settings = {
   initialRouteName: "(tabs)",
@@ -16,6 +20,8 @@ export default function RootLayout() {
   const [loaded, error] = useFonts({
     ...FontAwesome.font,
   });
+  const [isAuthChecked, setIsAuthChecked] = useState(false);
+  const { checkAuthStatus } = useAuthStore();
 
   useEffect(() => {
     if (error) {
@@ -27,14 +33,23 @@ export default function RootLayout() {
   useEffect(() => {
     if (loaded) {
       SplashScreen.hideAsync();
+      checkAuthStatus().finally(() => setIsAuthChecked(true));
     }
-  }, [loaded]);
+  }, [loaded, checkAuthStatus]);
 
-  if (!loaded) {
-    return null;
+  if (!loaded || !isAuthChecked) {
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: Colors.background }}>
+        <ActivityIndicator size="large" color={Colors.primary} />
+      </View>
+    );
   }
 
-  return <RootLayoutNav />;
+  return (
+    <AuthGuard>
+      <RootLayoutNav />
+    </AuthGuard>
+  );
 }
 
 function RootLayoutNav() {
@@ -123,6 +138,24 @@ function RootLayoutNav() {
           name="forum/new" 
           options={{ 
             title: "Neuer Beitrag",
+            headerTitleStyle: {
+              fontWeight: '600',
+            },
+          }} 
+        />
+        <Stack.Screen 
+          name="auth/login" 
+          options={{ 
+            title: "Anmelden",
+            headerTitleStyle: {
+              fontWeight: '600',
+            },
+          }} 
+        />
+        <Stack.Screen 
+          name="auth/register" 
+          options={{ 
+            title: "Registrieren",
             headerTitleStyle: {
               fontWeight: '600',
             },

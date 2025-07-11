@@ -9,11 +9,13 @@ import {
 import { Colors } from '@/constants/colors';
 import * as ImagePicker from 'expo-image-picker';
 import { useProfileStore } from '@/store/profile';
+import { useAuthStore } from '@/store/auth';
 import { useRouter } from 'expo-router';
 
 export default function ProfileScreen() {
   const router = useRouter();
   const { profile, updateProfile, updateSettings } = useProfileStore();
+  const { user, isAuthenticated, logout } = useAuthStore();
   const [showEditModal, setShowEditModal] = useState(false);
   const [showSettingsModal, setShowSettingsModal] = useState(false);
   const [showNotificationsModal, setShowNotificationsModal] = useState(false);
@@ -22,8 +24,8 @@ export default function ProfileScreen() {
   const [showMyListingsModal, setShowMyListingsModal] = useState(false);
   const [showForumPostsModal, setShowForumPostsModal] = useState(false);
   
-  const [editName, setEditName] = useState(profile.name);
-  const [editEmail, setEditEmail] = useState(profile.email);
+  const [editName, setEditName] = useState(`${user?.firstName || ''} ${user?.lastName || ''}`);
+  const [editEmail, setEditEmail] = useState(user?.email || '');
   const [isLoading, setIsLoading] = useState(false);
   
   const pickProfileImage = async () => {
@@ -77,13 +79,16 @@ export default function ProfileScreen() {
         },
         {
           text: "Abmelden",
-          onPress: () => {
-            // Simulate logout
+          onPress: async () => {
             setIsLoading(true);
-            setTimeout(() => {
+            try {
+              await logout();
+              router.replace('/auth/login');
+            } catch (error) {
+              Alert.alert("Fehler", "Beim Abmelden ist ein Fehler aufgetreten.");
+            } finally {
               setIsLoading(false);
-              Alert.alert("Erfolg", "Du wurdest erfolgreich abgemeldet.");
-            }, 1000);
+            }
           }
         }
       ]
@@ -119,8 +124,8 @@ export default function ProfileScreen() {
               </View>
             </Pressable>
             <View>
-              <Text style={styles.name}>{profile.name}</Text>
-              <Text style={styles.email}>{profile.email}</Text>
+              <Text style={styles.name}>{user?.firstName} {user?.lastName}</Text>
+              <Text style={styles.email}>{user?.email}</Text>
             </View>
           </View>
           <Pressable style={styles.editButton} onPress={() => setShowEditModal(true)}>

@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { StyleSheet, View, Text, ScrollView, Pressable, TextInput, Alert, Platform, ActivityIndicator, Modal } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Camera, Upload, ChevronRight, Image as ImageIcon, Search, X } from 'lucide-react-native';
+import { Camera, Upload, ChevronRight, Image as ImageIcon, Search } from 'lucide-react-native';
 import { Colors } from '@/constants/colors';
 import * as ImagePicker from 'expo-image-picker';
 import { CameraView, CameraType, useCameraPermissions } from 'expo-camera';
@@ -814,7 +814,7 @@ export default function AddListingScreen() {
                             style={styles.removeFeatureButton}
                             onPress={() => removeFeature(index)}
                           >
-                            <X size={12} color={Colors.secondaryText} />
+                            <Text style={styles.removeFeatureButtonText}>×</Text>
                           </Pressable>
                         </View>
                       ))}
@@ -1067,6 +1067,11 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.background,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  removeFeatureButtonText: {
+    fontSize: 12,
+    color: Colors.secondaryText,
+    fontWeight: '600',
   },
   requiredFieldsNote: {
     fontSize: 12,
