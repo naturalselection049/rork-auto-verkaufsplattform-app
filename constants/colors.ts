@@ -11,4 +11,5 @@ export const Colors = {
   placeholder: '#C7C7CC',
   favorite: '#FF2D55',
   price: '#34C759',
+  error: '#FF3B30',
 };

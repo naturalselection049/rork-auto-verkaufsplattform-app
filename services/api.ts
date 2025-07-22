@@ -1,5 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { CarListing, SavedSearch, ForumPost, Message } from '@/types/car';
+import { CarListing, SavedSearch, Message } from '@/types/car';
+import { ForumPost } from '@/types/forum';
 
 const API_BASE_URL = __DEV__ 
   ? 'http://localhost:3000/api' 

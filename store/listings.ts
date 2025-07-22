@@ -87,7 +87,7 @@ export const useListingsStore = create<ListingsState>((set, get) => ({
     set({ isLoading: true, error: null });
     
     try {
-      const newListing = await apiService.createListing(listingData);
+      const newListing = await apiService.createCarListing(listingData);
       
       set((state) => ({
         listings: [newListing, ...state.listings],
