@@ -1,16 +1,19 @@
 import React from "react";
 import { Tabs } from "expo-router";
 import { Home, PlusCircle, BarChart2, User, MessageSquare } from "lucide-react-native";
-import { Colors } from "@/constants/colors";
+import { useTheme } from "@/contexts/ThemeContext";
 
 export default function TabLayout() {
+  const { colors } = useTheme();
+  
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: Colors.primary,
-        tabBarInactiveTintColor: Colors.secondaryText,
+        tabBarActiveTintColor: colors.primary,
+        tabBarInactiveTintColor: colors.secondaryText,
         tabBarStyle: {
-          borderTopColor: Colors.border,
+          borderTopColor: colors.border,
+          backgroundColor: colors.background,
         },
         headerTitleStyle: {
           fontWeight: '600',

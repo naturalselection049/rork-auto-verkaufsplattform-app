@@ -1,4 +1,4 @@
-export const Colors = {
+export const LightColors = {
   primary: '#3478F6', // iOS blue
   secondary: '#34C759', // iOS green
   background: '#FFFFFF',
@@ -13,3 +13,22 @@ export const Colors = {
   price: '#34C759',
   error: '#FF3B30',
 };
+
+export const DarkColors = {
+  primary: '#0A84FF', // iOS blue dark
+  secondary: '#32D74B', // iOS green dark
+  background: '#000000',
+  card: '#1C1C1E',
+  text: '#FFFFFF',
+  secondaryText: '#8E8E93',
+  border: '#38383A',
+  notification: '#FF453A',
+  shadow: 'rgba(255, 255, 255, 0.1)',
+  placeholder: '#48484A',
+  favorite: '#FF375F',
+  price: '#32D74B',
+  error: '#FF453A',
+};
+
+// Default export for backward compatibility
+export const Colors = LightColors;

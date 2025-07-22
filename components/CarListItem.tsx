@@ -4,7 +4,7 @@ import { Image } from 'expo-image';
 import { Heart } from 'lucide-react-native';
 import { Link } from 'expo-router';
 import { CarListing } from '@/types/car';
-import { Colors } from '@/constants/colors';
+import { useTheme } from '@/contexts/ThemeContext';
 import { useFavoritesStore } from '@/store/favorites';
 import { SourceBadge } from '@/components/SourceBadge';
 
@@ -13,6 +13,8 @@ interface CarListItemProps {
 }
 
 export function CarListItem({ car }: CarListItemProps) {
+  const { colors } = useTheme();
+  const styles = createStyles(colors);
   const { isFavorite, addFavorite, removeFavorite } = useFavoritesStore();
   const isFav = isFavorite(car.id);
 
@@ -42,8 +44,8 @@ export function CarListItem({ car }: CarListItemProps) {
           >
             <Heart 
               size={18} 
-              color={isFav ? Colors.favorite : Colors.background} 
-              fill={isFav ? Colors.favorite : 'transparent'} 
+              color={isFav ? colors.favorite : colors.background} 
+              fill={isFav ? colors.favorite : 'transparent'} 
             />
           </Pressable>
         </View>
@@ -62,15 +64,15 @@ export function CarListItem({ car }: CarListItemProps) {
   );
 }
 
-const styles = StyleSheet.create({
+const createStyles = (colors: any) => StyleSheet.create({
   container: {
-    backgroundColor: Colors.background,
+    backgroundColor: colors.background,
     borderRadius: 8,
     marginBottom: 10,
     overflow: 'hidden',
     ...Platform.select({
       ios: {
-        shadowColor: Colors.shadow,
+        shadowColor: colors.shadow,
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.1,
         shadowRadius: 4,
@@ -90,7 +92,7 @@ const styles = StyleSheet.create({
   },
   image: {
     flex: 1,
-    backgroundColor: Colors.placeholder,
+    backgroundColor: colors.placeholder,
   },
   favoriteButton: {
     position: 'absolute',
@@ -101,7 +103,7 @@ const styles = StyleSheet.create({
     padding: 5,
     ...Platform.select({
       ios: {
-        shadowColor: Colors.shadow,
+        shadowColor: colors.shadow,
         shadowOffset: { width: 0, height: 1 },
         shadowOpacity: 0.2,
         shadowRadius: 2,
@@ -118,12 +120,12 @@ const styles = StyleSheet.create({
     fontSize: 13,
     fontWeight: '600',
     marginBottom: 2,
-    color: Colors.text,
+    color: colors.text,
   },
   price: {
     fontSize: 15,
     fontWeight: '700',
-    color: Colors.price,
+    color: colors.price,
     marginBottom: 3,
   },
   detailsRow: {
@@ -133,10 +135,10 @@ const styles = StyleSheet.create({
   },
   detail: {
     fontSize: 11,
-    color: Colors.secondaryText,
+    color: colors.secondaryText,
   },
   location: {
     fontSize: 11,
-    color: Colors.secondaryText,
+    color: colors.secondaryText,
   },
 });

@@ -3,7 +3,7 @@ import { StyleSheet, View, FlatList, Text, ActivityIndicator, TextInput, Pressab
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Link, useRouter } from 'expo-router';
 import { CarListItem } from '@/components/CarListItem';
-import { Colors } from '@/constants/colors';
+import { useTheme } from '@/contexts/ThemeContext';
 import { CarListing } from '@/types/car';
 import { fetchListingsFromAllSources } from '@/services/dataAggregation';
 import { Search, Filter, Bookmark, ChevronRight } from 'lucide-react-native';
@@ -12,6 +12,8 @@ import { useSavedSearchesStore } from '@/store/savedSearches';
 
 export default function HomeScreen() {
   const router = useRouter();
+  const { colors } = useTheme();
+  const styles = createStyles(colors);
   const [isLoading, setIsLoading] = useState(true);
   const [carListings, setCarListings] = useState<CarListing[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
@@ -57,7 +59,7 @@ export default function HomeScreen() {
   };
 
   return (
-    <SafeAreaView style={styles.container} edges={['bottom']}>
+    <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]} edges={['bottom']}>
       <FlatList
         data={filteredCars}
         renderItem={({ item }) => <CarListItem car={item} />}
@@ -68,7 +70,7 @@ export default function HomeScreen() {
           <>
             <View style={styles.searchContainer}>
               <Pressable style={styles.searchBar} onPress={focusSearch}>
-                <Search size={18} color={Colors.secondaryText} style={styles.searchIcon} />
+                <Search size={18} color={colors.secondaryText} style={styles.searchIcon} />
                 <TextInput
                   ref={searchInputRef}
                   style={styles.searchInput}
@@ -81,7 +83,7 @@ export default function HomeScreen() {
               
               <Link href="/filter" asChild>
                 <Pressable style={styles.filterButton}>
-                  <Filter size={18} color={Colors.primary} />
+                  <Filter size={18} color={colors.primary} />
                   {activeFiltersCount > 0 && (
                     <View style={styles.filterBadge}>
                       <Text style={styles.filterBadgeText}>{activeFiltersCount}</Text>
@@ -114,9 +116,9 @@ export default function HomeScreen() {
             
             <Link href="/saved-searches" asChild>
               <Pressable style={styles.savedSearchesButton}>
-                <Bookmark size={18} color={Colors.primary} />
+                <Bookmark size={18} color={colors.primary} />
                 <Text style={styles.savedSearchesText}>Gespeicherte Suchen ({savedSearches.length})</Text>
-                <ChevronRight size={14} color={Colors.secondaryText} />
+                <ChevronRight size={14} color={colors.secondaryText} />
               </Pressable>
             </Link>
             
@@ -129,7 +131,7 @@ export default function HomeScreen() {
         ListEmptyComponent={
           isLoading ? (
             <View style={styles.loadingContainer}>
-              <ActivityIndicator size="large" color={Colors.primary} />
+              <ActivityIndicator size="large" color={colors.primary} />
               <Text style={styles.loadingText}>Fahrzeuge werden geladen...</Text>
             </View>
           ) : (
@@ -144,6 +146,9 @@ export default function HomeScreen() {
 }
 
 function FilterChip({ label }: { label: string }) {
+  const { colors } = useTheme();
+  const styles = createStyles(colors);
+  
   return (
     <Link href={`/filter?section=${label.toLowerCase()}`} asChild>
       <Pressable style={styles.chip}>
@@ -153,10 +158,9 @@ function FilterChip({ label }: { label: string }) {
   );
 }
 
-const styles = StyleSheet.create({
+const createStyles = (colors: any) => StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.background,
   },
   listContent: {
     padding: 12,
@@ -171,7 +175,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: Colors.card,
+    backgroundColor: colors.card,
     borderRadius: 10,
     paddingHorizontal: 10,
     height: 40,
@@ -183,13 +187,13 @@ const styles = StyleSheet.create({
     flex: 1,
     height: '100%',
     fontSize: 14,
-    color: Colors.text,
+    color: colors.text,
   },
   filterButton: {
     width: 40,
     height: 40,
     borderRadius: 20,
-    backgroundColor: Colors.card,
+    backgroundColor: colors.card,
     alignItems: 'center',
     justifyContent: 'center',
     marginLeft: 10,
@@ -198,7 +202,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: -4,
     right: -4,
-    backgroundColor: Colors.primary,
+    backgroundColor: colors.primary,
     borderRadius: 10,
     minWidth: 18,
     height: 18,
@@ -206,7 +210,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   filterBadgeText: {
-    color: Colors.background,
+    color: colors.background,
     fontSize: 10,
     fontWeight: '600',
     paddingHorizontal: 4,
@@ -216,11 +220,11 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     paddingHorizontal: 10,
     paddingVertical: 4,
-    backgroundColor: Colors.card,
+    backgroundColor: colors.card,
     borderRadius: 14,
   },
   resetText: {
-    color: Colors.secondaryText,
+    color: colors.secondaryText,
     fontSize: 12,
   },
   quickFiltersContainer: {
@@ -231,18 +235,18 @@ const styles = StyleSheet.create({
     paddingHorizontal: 8,
     paddingVertical: 4,
     borderRadius: 14,
-    backgroundColor: Colors.card,
+    backgroundColor: colors.card,
     borderWidth: 1,
-    borderColor: Colors.border,
+    borderColor: colors.border,
   },
   chipText: {
     fontSize: 11,
-    color: Colors.text,
+    color: colors.text,
   },
   savedSearchesButton: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: Colors.card,
+    backgroundColor: colors.card,
     borderRadius: 10,
     padding: 12,
     marginBottom: 12,
@@ -252,7 +256,7 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     fontSize: 14,
     fontWeight: '500',
-    color: Colors.primary,
+    color: colors.primary,
   },
   header: {
     marginBottom: 12,
@@ -260,12 +264,12 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 22,
     fontWeight: '700',
-    color: Colors.text,
+    color: colors.text,
     marginBottom: 2,
   },
   subtitle: {
     fontSize: 14,
-    color: Colors.secondaryText,
+    color: colors.secondaryText,
   },
   loadingContainer: {
     flex: 1,
@@ -276,7 +280,7 @@ const styles = StyleSheet.create({
   loadingText: {
     marginTop: 16,
     fontSize: 16,
-    color: Colors.secondaryText,
+    color: colors.secondaryText,
   },
   emptyContainer: {
     flex: 1,
@@ -286,6 +290,6 @@ const styles = StyleSheet.create({
   },
   emptyText: {
     fontSize: 16,
-    color: Colors.secondaryText,
+    color: colors.secondaryText,
   },
 });

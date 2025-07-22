@@ -6,7 +6,7 @@ import {
   Settings, MessageCircle, Car, Bell, Shield, 
   HelpCircle, LogOut, ChevronRight, Camera
 } from 'lucide-react-native';
-import { Colors } from '@/constants/colors';
+import { useTheme } from '@/contexts/ThemeContext';
 import * as ImagePicker from 'expo-image-picker';
 import { useProfileStore } from '@/store/profile';
 import { useAuthStore } from '@/store/auth';
@@ -14,8 +14,10 @@ import { useRouter } from 'expo-router';
 
 export default function ProfileScreen() {
   const router = useRouter();
+  const { colors } = useTheme();
   const { profile, updateProfile, updateSettings } = useProfileStore();
   const { user, isAuthenticated, logout } = useAuthStore();
+  const styles = createStyles(colors);
   const [showEditModal, setShowEditModal] = useState(false);
   const [showSettingsModal, setShowSettingsModal] = useState(false);
   const [showNotificationsModal, setShowNotificationsModal] = useState(false);
@@ -106,7 +108,7 @@ export default function ProfileScreen() {
   // Show guest profile if not authenticated
   if (!isAuthenticated) {
     return (
-      <SafeAreaView style={styles.container} edges={['bottom']}>
+      <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]} edges={['bottom']}>
         <ScrollView>
           <View style={styles.guestHeader}>
             <View style={styles.guestInfo}>
@@ -140,13 +142,13 @@ export default function ProfileScreen() {
             <Text style={styles.sectionTitle}>Einstellungen</Text>
             
             <MenuItem 
-              icon={<Settings size={22} color={Colors.secondaryText} />}
+              icon={<Settings size={22} color={colors.secondaryText} />}
               title="App-Einstellungen"
               onPress={() => setShowSettingsModal(true)}
             />
             
             <MenuItem 
-              icon={<HelpCircle size={22} color={Colors.secondaryText} />}
+              icon={<HelpCircle size={22} color={colors.secondaryText} />}
               title="Hilfe & Support"
               onPress={() => setShowHelpModal(true)}
             />
@@ -170,7 +172,7 @@ export default function ProfileScreen() {
                 <Switch
                   value={profile.settings.darkMode}
                   onValueChange={(value) => updateSettings({ ...profile.settings, darkMode: value })}
-                  trackColor={{ false: Colors.border, true: Colors.primary }}
+                  trackColor={{ false: colors.border, true: colors.primary }}
                 />
               </View>
               
@@ -196,22 +198,22 @@ export default function ProfileScreen() {
               
               <Pressable style={styles.helpItem} onPress={() => Alert.alert("FAQ", "Hier findest du Antworten auf häufig gestellte Fragen.")}>
                 <Text style={styles.helpItemText}>Häufig gestellte Fragen</Text>
-                <ChevronRight size={20} color={Colors.secondaryText} />
+                <ChevronRight size={20} color={colors.secondaryText} />
               </Pressable>
               
               <Pressable style={styles.helpItem} onPress={() => Alert.alert("Kontakt", "Kontaktiere unseren Support per E-Mail oder Telefon.")}>
                 <Text style={styles.helpItemText}>Kontakt zum Support</Text>
-                <ChevronRight size={20} color={Colors.secondaryText} />
+                <ChevronRight size={20} color={colors.secondaryText} />
               </Pressable>
               
               <Pressable style={styles.helpItem} onPress={() => Alert.alert("Nutzungsbedingungen", "Hier findest du unsere Nutzungsbedingungen.")}>
                 <Text style={styles.helpItemText}>Nutzungsbedingungen</Text>
-                <ChevronRight size={20} color={Colors.secondaryText} />
+                <ChevronRight size={20} color={colors.secondaryText} />
               </Pressable>
               
               <Pressable style={styles.helpItem} onPress={() => Alert.alert("Datenschutz", "Hier findest du unsere Datenschutzrichtlinien.")}>
                 <Text style={styles.helpItemText}>Datenschutzrichtlinien</Text>
-                <ChevronRight size={20} color={Colors.secondaryText} />
+                <ChevronRight size={20} color={colors.secondaryText} />
               </Pressable>
               
               <Pressable 
@@ -228,10 +230,10 @@ export default function ProfileScreen() {
   }
 
   return (
-    <SafeAreaView style={styles.container} edges={['bottom']}>
+    <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]} edges={['bottom']}>
       {isLoading && (
         <View style={styles.loadingOverlay}>
-          <ActivityIndicator size="large" color={Colors.primary} />
+          <ActivityIndicator size="large" color={colors.primary} />
         </View>
       )}
       
@@ -244,7 +246,7 @@ export default function ProfileScreen() {
                 style={styles.avatar}
               />
               <View style={styles.cameraIconContainer}>
-                <Camera size={16} color={Colors.background} />
+                <Camera size={16} color={colors.background} />
               </View>
             </Pressable>
             <View>
@@ -261,21 +263,21 @@ export default function ProfileScreen() {
           <Text style={styles.sectionTitle}>Mein Konto</Text>
           
           <MenuItem 
-            icon={<Car size={22} color={Colors.primary} />}
+            icon={<Car size={22} color={colors.primary} />}
             title="Meine Inserate"
             subtitle="Verwalte deine Fahrzeuganzeigen"
             onPress={navigateToMyListings}
           />
           
           <MenuItem 
-            icon={<MessageCircle size={22} color={Colors.primary} />}
+            icon={<MessageCircle size={22} color={colors.primary} />}
             title="Forum-Beiträge"
             subtitle="Verwalte deine Beiträge im Forum"
             onPress={navigateToForumPosts}
           />
           
           <MenuItem 
-            icon={<Bell size={22} color={Colors.primary} />}
+            icon={<Bell size={22} color={colors.primary} />}
             title="Benachrichtigungen"
             subtitle="Verwalte deine Benachrichtigungen"
             onPress={() => setShowNotificationsModal(true)}
@@ -286,26 +288,26 @@ export default function ProfileScreen() {
           <Text style={styles.sectionTitle}>Einstellungen</Text>
           
           <MenuItem 
-            icon={<Settings size={22} color={Colors.secondaryText} />}
+            icon={<Settings size={22} color={colors.secondaryText} />}
             title="App-Einstellungen"
             onPress={() => setShowSettingsModal(true)}
           />
           
           <MenuItem 
-            icon={<Shield size={22} color={Colors.secondaryText} />}
+            icon={<Shield size={22} color={colors.secondaryText} />}
             title="Datenschutz & Sicherheit"
             onPress={() => setShowPrivacyModal(true)}
           />
           
           <MenuItem 
-            icon={<HelpCircle size={22} color={Colors.secondaryText} />}
+            icon={<HelpCircle size={22} color={colors.secondaryText} />}
             title="Hilfe & Support"
             onPress={() => setShowHelpModal(true)}
           />
         </View>
         
         <Pressable style={styles.logoutButton} onPress={handleLogout}>
-          <LogOut size={22} color={Colors.notification} />
+          <LogOut size={22} color={colors.notification} />
           <Text style={styles.logoutText}>Abmelden</Text>
         </Pressable>
         
@@ -377,7 +379,7 @@ export default function ProfileScreen() {
               <Switch
                 value={profile.settings.darkMode}
                 onValueChange={(value) => updateSettings({ ...profile.settings, darkMode: value })}
-                trackColor={{ false: Colors.border, true: Colors.primary }}
+                trackColor={{ false: colors.border, true: colors.primary }}
               />
             </View>
             
@@ -386,7 +388,7 @@ export default function ProfileScreen() {
               <Switch
                 value={profile.settings.pushNotifications}
                 onValueChange={(value) => updateSettings({ ...profile.settings, pushNotifications: value })}
-                trackColor={{ false: Colors.border, true: Colors.primary }}
+                trackColor={{ false: colors.border, true: colors.primary }}
               />
             </View>
             
@@ -395,7 +397,7 @@ export default function ProfileScreen() {
               <Switch
                 value={profile.settings.locationServices}
                 onValueChange={(value) => updateSettings({ ...profile.settings, locationServices: value })}
-                trackColor={{ false: Colors.border, true: Colors.primary }}
+                trackColor={{ false: colors.border, true: colors.primary }}
               />
             </View>
             
@@ -427,7 +429,7 @@ export default function ProfileScreen() {
                   ...profile,
                   notifications: { ...profile.notifications, messages: value }
                 })}
-                trackColor={{ false: Colors.border, true: Colors.primary }}
+                trackColor={{ false: colors.border, true: colors.primary }}
               />
             </View>
             
@@ -439,7 +441,7 @@ export default function ProfileScreen() {
                   ...profile,
                   notifications: { ...profile.notifications, forumReplies: value }
                 })}
-                trackColor={{ false: Colors.border, true: Colors.primary }}
+                trackColor={{ false: colors.border, true: colors.primary }}
               />
             </View>
             
@@ -451,7 +453,7 @@ export default function ProfileScreen() {
                   ...profile,
                   notifications: { ...profile.notifications, newListings: value }
                 })}
-                trackColor={{ false: Colors.border, true: Colors.primary }}
+                trackColor={{ false: colors.border, true: colors.primary }}
               />
             </View>
             
@@ -483,7 +485,7 @@ export default function ProfileScreen() {
                   ...profile,
                   privacy: { ...profile.privacy, publicProfile: value }
                 })}
-                trackColor={{ false: Colors.border, true: Colors.primary }}
+                trackColor={{ false: colors.border, true: colors.primary }}
               />
             </View>
             
@@ -495,7 +497,7 @@ export default function ProfileScreen() {
                   ...profile,
                   privacy: { ...profile.privacy, showActivity: value }
                 })}
-                trackColor={{ false: Colors.border, true: Colors.primary }}
+                trackColor={{ false: colors.border, true: colors.primary }}
               />
             </View>
             
@@ -507,7 +509,7 @@ export default function ProfileScreen() {
                   ...profile,
                   privacy: { ...profile.privacy, dataForAds: value }
                 })}
-                trackColor={{ false: Colors.border, true: Colors.primary }}
+                trackColor={{ false: colors.border, true: colors.primary }}
               />
             </View>
             
@@ -533,22 +535,22 @@ export default function ProfileScreen() {
             
             <Pressable style={styles.helpItem} onPress={() => Alert.alert("FAQ", "Hier findest du Antworten auf häufig gestellte Fragen.")}>
               <Text style={styles.helpItemText}>Häufig gestellte Fragen</Text>
-              <ChevronRight size={20} color={Colors.secondaryText} />
+              <ChevronRight size={20} color={colors.secondaryText} />
             </Pressable>
             
             <Pressable style={styles.helpItem} onPress={() => Alert.alert("Kontakt", "Kontaktiere unseren Support per E-Mail oder Telefon.")}>
               <Text style={styles.helpItemText}>Kontakt zum Support</Text>
-              <ChevronRight size={20} color={Colors.secondaryText} />
+              <ChevronRight size={20} color={colors.secondaryText} />
             </Pressable>
             
             <Pressable style={styles.helpItem} onPress={() => Alert.alert("Nutzungsbedingungen", "Hier findest du unsere Nutzungsbedingungen.")}>
               <Text style={styles.helpItemText}>Nutzungsbedingungen</Text>
-              <ChevronRight size={20} color={Colors.secondaryText} />
+              <ChevronRight size={20} color={colors.secondaryText} />
             </Pressable>
             
             <Pressable style={styles.helpItem} onPress={() => Alert.alert("Datenschutz", "Hier findest du unsere Datenschutzrichtlinien.")}>
               <Text style={styles.helpItemText}>Datenschutzrichtlinien</Text>
-              <ChevronRight size={20} color={Colors.secondaryText} />
+              <ChevronRight size={20} color={colors.secondaryText} />
             </Pressable>
             
             <Pressable 
@@ -646,6 +648,9 @@ function MenuItem({
   subtitle?: string;
   onPress?: () => void;
 }) {
+  const { colors } = useTheme();
+  const styles = createStyles(colors);
+  
   return (
     <Pressable style={styles.menuItem} onPress={onPress}>
       <View style={styles.menuItemLeft}>
@@ -655,15 +660,14 @@ function MenuItem({
           {subtitle && <Text style={styles.menuItemSubtitle}>{subtitle}</Text>}
         </View>
       </View>
-      <ChevronRight size={20} color={Colors.secondaryText} />
+      <ChevronRight size={20} color={colors.secondaryText} />
     </Pressable>
   );
 }
 
-const styles = StyleSheet.create({
+const createStyles = (colors: any) => StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.background,
   },
   loadingOverlay: {
     position: 'absolute',
@@ -682,7 +686,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 16,
     borderBottomWidth: 1,
-    borderBottomColor: Colors.border,
+    borderBottomColor: colors.border,
   },
   profileInfo: {
     flexDirection: 'row',
@@ -696,13 +700,13 @@ const styles = StyleSheet.create({
     width: 60,
     height: 60,
     borderRadius: 30,
-    backgroundColor: Colors.placeholder,
+    backgroundColor: colors.placeholder,
   },
   cameraIconContainer: {
     position: 'absolute',
     bottom: 0,
     right: 0,
-    backgroundColor: Colors.primary,
+    backgroundColor: colors.primary,
     borderRadius: 12,
     width: 24,
     height: 24,
@@ -712,21 +716,21 @@ const styles = StyleSheet.create({
   name: {
     fontSize: 18,
     fontWeight: '600',
-    color: Colors.text,
+    color: colors.text,
     marginBottom: 4,
   },
   email: {
     fontSize: 14,
-    color: Colors.secondaryText,
+    color: colors.secondaryText,
   },
   editButton: {
     paddingHorizontal: 16,
     paddingVertical: 8,
-    backgroundColor: Colors.card,
+    backgroundColor: colors.card,
     borderRadius: 20,
   },
   editButtonText: {
-    color: Colors.primary,
+    color: colors.primary,
     fontWeight: '500',
   },
   section: {
@@ -736,7 +740,7 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 18,
     fontWeight: '600',
-    color: Colors.text,
+    color: colors.text,
     marginBottom: 16,
   },
   menuItem: {
@@ -745,7 +749,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingVertical: 16,
     borderBottomWidth: 1,
-    borderBottomColor: Colors.border,
+    borderBottomColor: colors.border,
   },
   menuItemLeft: {
     flexDirection: 'row',
@@ -756,12 +760,12 @@ const styles = StyleSheet.create({
   },
   menuItemTitle: {
     fontSize: 16,
-    color: Colors.text,
+    color: colors.text,
     fontWeight: '500',
   },
   menuItemSubtitle: {
     fontSize: 14,
-    color: Colors.secondaryText,
+    color: colors.secondaryText,
     marginTop: 2,
   },
   logoutButton: {
@@ -774,7 +778,7 @@ const styles = StyleSheet.create({
   logoutText: {
     marginLeft: 12,
     fontSize: 16,
-    color: Colors.notification,
+    color: colors.notification,
     fontWeight: '500',
   },
   versionText: {
@@ -782,7 +786,7 @@ const styles = StyleSheet.create({
     marginTop: 24,
     marginBottom: 32,
     fontSize: 14,
-    color: Colors.secondaryText,
+    color: colors.secondaryText,
   },
   modalContainer: {
     flex: 1,
@@ -792,7 +796,7 @@ const styles = StyleSheet.create({
   },
   modalContent: {
     width: '90%',
-    backgroundColor: Colors.background,
+    backgroundColor: colors.background,
     borderRadius: 12,
     padding: 20,
     maxHeight: '80%',
@@ -800,7 +804,7 @@ const styles = StyleSheet.create({
   modalTitle: {
     fontSize: 20,
     fontWeight: '600',
-    color: Colors.text,
+    color: colors.text,
     marginBottom: 20,
     textAlign: 'center',
   },
@@ -809,13 +813,13 @@ const styles = StyleSheet.create({
   },
   inputLabel: {
     fontSize: 16,
-    color: Colors.text,
+    color: colors.text,
     marginBottom: 8,
   },
   input: {
     height: 48,
     borderWidth: 1,
-    borderColor: Colors.border,
+    borderColor: colors.border,
     borderRadius: 8,
     paddingHorizontal: 12,
     fontSize: 16,
@@ -833,20 +837,20 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   modalButtonCancel: {
-    backgroundColor: Colors.card,
+    backgroundColor: colors.card,
     marginRight: 8,
   },
   modalButtonCancelText: {
-    color: Colors.secondaryText,
+    color: colors.secondaryText,
     fontSize: 16,
     fontWeight: '500',
   },
   modalButtonSave: {
-    backgroundColor: Colors.primary,
+    backgroundColor: colors.primary,
     marginLeft: 8,
   },
   modalButtonSaveText: {
-    color: Colors.background,
+    color: colors.background,
     fontSize: 16,
     fontWeight: '500',
   },
@@ -856,22 +860,22 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingVertical: 16,
     borderBottomWidth: 1,
-    borderBottomColor: Colors.border,
+    borderBottomColor: colors.border,
   },
   settingLabel: {
     fontSize: 16,
-    color: Colors.text,
+    color: colors.text,
   },
   closeModalButton: {
     height: 48,
     borderRadius: 8,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: Colors.primary,
+    backgroundColor: colors.primary,
     marginTop: 20,
   },
   closeModalButtonText: {
-    color: Colors.background,
+    color: colors.background,
     fontSize: 16,
     fontWeight: '500',
   },
@@ -881,67 +885,67 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingVertical: 16,
     borderBottomWidth: 1,
-    borderBottomColor: Colors.border,
+    borderBottomColor: colors.border,
   },
   helpItemText: {
     fontSize: 16,
-    color: Colors.text,
+    color: colors.text,
   },
   listingItem: {
     padding: 16,
     borderWidth: 1,
-    borderColor: Colors.border,
+    borderColor: colors.border,
     borderRadius: 8,
     marginBottom: 12,
   },
   listingTitle: {
     fontSize: 16,
     fontWeight: '600',
-    color: Colors.text,
+    color: colors.text,
     marginBottom: 4,
   },
   listingDetails: {
     fontSize: 14,
-    color: Colors.secondaryText,
+    color: colors.secondaryText,
     marginBottom: 8,
   },
   listingStatus: {
     alignSelf: 'flex-start',
     paddingHorizontal: 8,
     paddingVertical: 4,
-    backgroundColor: Colors.primary,
+    backgroundColor: colors.primary,
     borderRadius: 4,
   },
   listingStatusPending: {
-    backgroundColor: Colors.secondaryText,
+    backgroundColor: colors.secondaryText,
   },
   listingStatusText: {
-    color: Colors.background,
+    color: colors.background,
     fontSize: 12,
     fontWeight: '500',
   },
   forumPostItem: {
     padding: 16,
     borderWidth: 1,
-    borderColor: Colors.border,
+    borderColor: colors.border,
     borderRadius: 8,
     marginBottom: 12,
   },
   forumPostTitle: {
     fontSize: 16,
     fontWeight: '600',
-    color: Colors.text,
+    color: colors.text,
     marginBottom: 4,
   },
   forumPostDetails: {
     fontSize: 14,
-    color: Colors.secondaryText,
+    color: colors.secondaryText,
   },
   // Guest profile styles
   guestHeader: {
     padding: 16,
     borderBottomWidth: 1,
-    borderBottomColor: Colors.border,
+    borderBottomColor: colors.border,
   },
   guestInfo: {
     flexDirection: 'row',
@@ -951,51 +955,51 @@ const styles = StyleSheet.create({
     width: 60,
     height: 60,
     borderRadius: 30,
-    backgroundColor: Colors.card,
+    backgroundColor: colors.card,
     alignItems: 'center',
     justifyContent: 'center',
     marginRight: 12,
   },
   guestAvatarText: {
     fontSize: 24,
-    color: Colors.secondaryText,
+    color: colors.secondaryText,
     fontWeight: '600',
   },
   guestName: {
     fontSize: 18,
     fontWeight: '600',
-    color: Colors.text,
+    color: colors.text,
     marginBottom: 4,
   },
   guestSubtitle: {
     fontSize: 14,
-    color: Colors.secondaryText,
+    color: colors.secondaryText,
   },
   guestActions: {
     padding: 16,
     gap: 12,
   },
   loginButton: {
-    backgroundColor: Colors.primary,
+    backgroundColor: colors.primary,
     borderRadius: 12,
     paddingVertical: 16,
     alignItems: 'center',
   },
   loginButtonText: {
-    color: Colors.background,
+    color: colors.background,
     fontSize: 16,
     fontWeight: '600',
   },
   registerButton: {
-    backgroundColor: Colors.card,
+    backgroundColor: colors.card,
     borderRadius: 12,
     paddingVertical: 16,
     alignItems: 'center',
     borderWidth: 1,
-    borderColor: Colors.border,
+    borderColor: colors.border,
   },
   registerButtonText: {
-    color: Colors.primary,
+    color: colors.primary,
     fontSize: 16,
     fontWeight: '600',
   },
