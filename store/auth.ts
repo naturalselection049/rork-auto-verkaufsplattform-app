@@ -46,9 +46,22 @@ export const useAuthStore = create<AuthState>()(
         set({ isLoading: true, error: null });
         
         try {
-          const response = await apiService.login(email, password);
+          // Mock successful login for demo purposes
+          const mockUser = {
+            id: Date.now().toString(),
+            email: email,
+            firstName: 'Demo',
+            lastName: 'User',
+            verified: true,
+            createdAt: new Date().toISOString(),
+          };
+          
+          // Store mock token and user
+          await AsyncStorage.setItem('auth_token', 'mock_token_' + Date.now());
+          await AsyncStorage.setItem('user', JSON.stringify(mockUser));
+          
           set({ 
-            user: response.user, 
+            user: mockUser, 
             isAuthenticated: true, 
             isLoading: false 
           });
@@ -65,9 +78,23 @@ export const useAuthStore = create<AuthState>()(
         set({ isLoading: true, error: null });
         
         try {
-          const response = await apiService.register(userData);
+          // Mock successful registration for demo purposes
+          const mockUser = {
+            id: Date.now().toString(),
+            email: userData.email,
+            firstName: userData.firstName,
+            lastName: userData.lastName,
+            phone: userData.phone,
+            verified: false,
+            createdAt: new Date().toISOString(),
+          };
+          
+          // Store mock token and user
+          await AsyncStorage.setItem('auth_token', 'mock_token_' + Date.now());
+          await AsyncStorage.setItem('user', JSON.stringify(mockUser));
+          
           set({ 
-            user: response.user, 
+            user: mockUser, 
             isAuthenticated: true, 
             isLoading: false 
           });

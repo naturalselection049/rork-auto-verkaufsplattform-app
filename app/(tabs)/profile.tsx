@@ -103,6 +103,130 @@ export default function ProfileScreen() {
     setShowForumPostsModal(true);
   };
 
+  // Show guest profile if not authenticated
+  if (!isAuthenticated) {
+    return (
+      <SafeAreaView style={styles.container} edges={['bottom']}>
+        <ScrollView>
+          <View style={styles.guestHeader}>
+            <View style={styles.guestInfo}>
+              <View style={styles.guestAvatar}>
+                <Text style={styles.guestAvatarText}>?</Text>
+              </View>
+              <View>
+                <Text style={styles.guestName}>Gast-Benutzer</Text>
+                <Text style={styles.guestSubtitle}>Ohne Anmeldung</Text>
+              </View>
+            </View>
+          </View>
+          
+          <View style={styles.guestActions}>
+            <Pressable 
+              style={styles.loginButton} 
+              onPress={() => router.push('/auth/login')}
+            >
+              <Text style={styles.loginButtonText}>Anmelden</Text>
+            </Pressable>
+            
+            <Pressable 
+              style={styles.registerButton} 
+              onPress={() => router.push('/auth/register')}
+            >
+              <Text style={styles.registerButtonText}>Registrieren</Text>
+            </Pressable>
+          </View>
+          
+          <View style={styles.section}>
+            <Text style={styles.sectionTitle}>Einstellungen</Text>
+            
+            <MenuItem 
+              icon={<Settings size={22} color={Colors.secondaryText} />}
+              title="App-Einstellungen"
+              onPress={() => setShowSettingsModal(true)}
+            />
+            
+            <MenuItem 
+              icon={<HelpCircle size={22} color={Colors.secondaryText} />}
+              title="Hilfe & Support"
+              onPress={() => setShowHelpModal(true)}
+            />
+          </View>
+          
+          <Text style={styles.versionText}>Version 1.0.0</Text>
+        </ScrollView>
+        
+        {/* Settings Modal for guests */}
+        <Modal
+          visible={showSettingsModal}
+          animationType="slide"
+          transparent={true}
+        >
+          <View style={styles.modalContainer}>
+            <View style={styles.modalContent}>
+              <Text style={styles.modalTitle}>App-Einstellungen</Text>
+              
+              <View style={styles.settingItem}>
+                <Text style={styles.settingLabel}>Dunkelmodus</Text>
+                <Switch
+                  value={profile.settings.darkMode}
+                  onValueChange={(value) => updateSettings({ ...profile.settings, darkMode: value })}
+                  trackColor={{ false: Colors.border, true: Colors.primary }}
+                />
+              </View>
+              
+              <Pressable 
+                style={styles.closeModalButton}
+                onPress={() => setShowSettingsModal(false)}
+              >
+                <Text style={styles.closeModalButtonText}>Schließen</Text>
+              </Pressable>
+            </View>
+          </View>
+        </Modal>
+        
+        {/* Help Modal for guests */}
+        <Modal
+          visible={showHelpModal}
+          animationType="slide"
+          transparent={true}
+        >
+          <View style={styles.modalContainer}>
+            <View style={styles.modalContent}>
+              <Text style={styles.modalTitle}>Hilfe & Support</Text>
+              
+              <Pressable style={styles.helpItem} onPress={() => Alert.alert("FAQ", "Hier findest du Antworten auf häufig gestellte Fragen.")}>
+                <Text style={styles.helpItemText}>Häufig gestellte Fragen</Text>
+                <ChevronRight size={20} color={Colors.secondaryText} />
+              </Pressable>
+              
+              <Pressable style={styles.helpItem} onPress={() => Alert.alert("Kontakt", "Kontaktiere unseren Support per E-Mail oder Telefon.")}>
+                <Text style={styles.helpItemText}>Kontakt zum Support</Text>
+                <ChevronRight size={20} color={Colors.secondaryText} />
+              </Pressable>
+              
+              <Pressable style={styles.helpItem} onPress={() => Alert.alert("Nutzungsbedingungen", "Hier findest du unsere Nutzungsbedingungen.")}>
+                <Text style={styles.helpItemText}>Nutzungsbedingungen</Text>
+                <ChevronRight size={20} color={Colors.secondaryText} />
+              </Pressable>
+              
+              <Pressable style={styles.helpItem} onPress={() => Alert.alert("Datenschutz", "Hier findest du unsere Datenschutzrichtlinien.")}>
+                <Text style={styles.helpItemText}>Datenschutzrichtlinien</Text>
+                <ChevronRight size={20} color={Colors.secondaryText} />
+              </Pressable>
+              
+              <Pressable 
+                style={styles.closeModalButton}
+                onPress={() => setShowHelpModal(false)}
+              >
+                <Text style={styles.closeModalButtonText}>Schließen</Text>
+              </Pressable>
+            </View>
+          </View>
+        </Modal>
+      </SafeAreaView>
+    );
+  }
+
   return (
     <SafeAreaView style={styles.container} edges={['bottom']}>
       {isLoading && (
@@ -812,5 +936,67 @@ const styles = StyleSheet.create({
   forumPostDetails: {
     fontSize: 14,
     color: Colors.secondaryText,
+  },
+  // Guest profile styles
+  guestHeader: {
+    padding: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: Colors.border,
+  },
+  guestInfo: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  guestAvatar: {
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    backgroundColor: Colors.card,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: 12,
+  },
+  guestAvatarText: {
+    fontSize: 24,
+    color: Colors.secondaryText,
+    fontWeight: '600',
+  },
+  guestName: {
+    fontSize: 18,
+    fontWeight: '600',
+    color: Colors.text,
+    marginBottom: 4,
+  },
+  guestSubtitle: {
+    fontSize: 14,
+    color: Colors.secondaryText,
+  },
+  guestActions: {
+    padding: 16,
+    gap: 12,
+  },
+  loginButton: {
+    backgroundColor: Colors.primary,
+    borderRadius: 12,
+    paddingVertical: 16,
+    alignItems: 'center',
+  },
+  loginButtonText: {
+    color: Colors.background,
+    fontSize: 16,
+    fontWeight: '600',
+  },
+  registerButton: {
+    backgroundColor: Colors.card,
+    borderRadius: 12,
+    paddingVertical: 16,
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: Colors.border,
+  },
+  registerButtonText: {
+    color: Colors.primary,
+    fontSize: 16,
+    fontWeight: '600',
   },
 });

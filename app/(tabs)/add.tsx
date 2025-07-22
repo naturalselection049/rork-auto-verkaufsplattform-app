@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
-import { StyleSheet, View, Text, ScrollView, Pressable, TextInput, Alert, Platform, ActivityIndicator, Modal } from 'react-native';
+import { StyleSheet, View, Text, ScrollView, Pressable, TextInput, Alert, ActivityIndicator, Modal } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Camera, Upload, ChevronRight, Image as ImageIcon, Search } from 'lucide-react-native';
+import { Camera, Upload, ChevronRight, Search } from 'lucide-react-native';
 import { Colors } from '@/constants/colors';
 import * as ImagePicker from 'expo-image-picker';
 import { CameraView, CameraType, useCameraPermissions } from 'expo-camera';

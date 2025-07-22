@@ -2,12 +2,10 @@ import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { StatusBar } from 'expo-status-bar';
-import { useAuthStore } from '@/store/auth';
 import { View, ActivityIndicator } from 'react-native';
 import { Colors } from '@/constants/colors';
-import { AuthGuard } from '@/components/AuthGuard';
 
 export const unstable_settings = {
   initialRouteName: "(tabs)",
@@ -20,8 +18,6 @@ export default function RootLayout() {
   const [loaded, error] = useFonts({
     ...FontAwesome.font,
   });
-  const [isAuthChecked, setIsAuthChecked] = useState(false);
-  const { checkAuthStatus } = useAuthStore();
 
   useEffect(() => {
     if (error) {
@@ -33,11 +29,10 @@ export default function RootLayout() {
   useEffect(() => {
     if (loaded) {
       SplashScreen.hideAsync();
-      checkAuthStatus().finally(() => setIsAuthChecked(true));
     }
-  }, [loaded, checkAuthStatus]);
+  }, [loaded]);
 
-  if (!loaded || !isAuthChecked) {
+  if (!loaded) {
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: Colors.background }}>
         <ActivityIndicator size="large" color={Colors.primary} />
@@ -45,11 +40,7 @@ export default function RootLayout() {
     );
   }
 
-  return (
-    <AuthGuard>
-      <RootLayoutNav />
-    </AuthGuard>
-  );
+  return <RootLayoutNav />;
 }
 
 function RootLayoutNav() {
