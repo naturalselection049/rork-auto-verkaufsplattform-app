@@ -17,6 +17,7 @@ export const carListings: CarListing[] = [
     sellerType: 'Händler',
     sellerName: 'Premium Automobile GmbH',
     sellerPhone: '+49123456789',
+    sellerId: 'seller1',
     images: [
       'https://images.unsplash.com/photo-1555215695-3004980ad54e?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
       'https://images.unsplash.com/photo-1520050206274-a1ae44613e6d?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'
@@ -41,6 +42,7 @@ export const carListings: CarListing[] = [
     sellerType: 'Händler',
     sellerName: 'Stern Automobile',
     sellerPhone: '+49987654321',
+    sellerId: 'seller3',
     images: [
       'https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
       'https://images.unsplash.com/photo-1617814076668-8dfc6fe159ed?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'
@@ -65,6 +67,7 @@ export const carListings: CarListing[] = [
     sellerType: 'Privat',
     sellerName: 'Thomas Müller',
     sellerPhone: '+49123987456',
+    sellerId: 'seller2',
     images: [
       'https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
       'https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'
@@ -89,6 +92,7 @@ export const carListings: CarListing[] = [
     sellerType: 'Händler',
     sellerName: 'Auto Zentrum Köln',
     sellerPhone: '+49555123789',
+    sellerId: 'seller3',
     images: [
       'https://images.unsplash.com/photo-1606152421802-db97b9c7a11b?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
       'https://images.unsplash.com/photo-1603584173870-7f23fdae1b7a?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'
@@ -113,6 +117,7 @@ export const carListings: CarListing[] = [
     sellerType: 'Privat',
     sellerName: 'Lisa Schmidt',
     sellerPhone: '+49777888999',
+    sellerId: 'seller2',
     images: [
       'https://images.unsplash.com/photo-1560958089-b8a1929cea89?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
       'https://images.unsplash.com/photo-1551952238-2315a31e1f29?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'

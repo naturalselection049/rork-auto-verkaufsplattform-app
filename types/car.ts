@@ -14,6 +14,7 @@ export interface CarListing {
   sellerType: 'Privat' | 'Händler';
   sellerName: string;
   sellerPhone?: string;
+  sellerId?: string;
   images: string[];
   features: string[];
   createdAt: string;
@@ -73,4 +74,42 @@ export interface Conversation {
   participantIds: string[];
   lastMessage: Message;
   unreadCount: number;
+}
+
+export interface SellerProfile {
+  id: string;
+  name: string;
+  type: 'Privat' | 'Händler';
+  avatar?: string;
+  address: {
+    street: string;
+    city: string;
+    postalCode: string;
+    country: string;
+  };
+  phone?: string;
+  email?: string;
+  description?: string;
+  rating: {
+    average: number;
+    count: number;
+  };
+  reviews: SellerReview[];
+  memberSince: string;
+  responseTime?: string;
+  activeListings: number;
+  totalSold: number;
+  verified: boolean;
+}
+
+export interface SellerReview {
+  id: string;
+  reviewerId: string;
+  reviewerName: string;
+  reviewerAvatar?: string;
+  rating: number;
+  comment: string;
+  createdAt: string;
+  carId?: string;
+  carTitle?: string;
 }

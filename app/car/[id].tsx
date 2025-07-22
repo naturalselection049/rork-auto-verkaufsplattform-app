@@ -237,8 +237,19 @@ export default function CarDetailScreen() {
             <Text style={styles.sectionTitle}>Verkäufer</Text>
             <View style={styles.seller}>
               <View style={styles.sellerInfo}>
-                <Text style={styles.sellerName}>{foundCar.sellerName}</Text>
-                <Text style={styles.sellerType}>{foundCar.sellerType}</Text>
+                {foundCar.sellerId ? (
+                  <Link href={`/seller/${foundCar.sellerId}`} asChild>
+                    <Pressable style={styles.sellerNameButton}>
+                      <Text style={styles.sellerNameClickable}>{foundCar.sellerName}</Text>
+                      <Text style={styles.sellerType}>{foundCar.sellerType}</Text>
+                    </Pressable>
+                  </Link>
+                ) : (
+                  <View>
+                    <Text style={styles.sellerName}>{foundCar.sellerName}</Text>
+                    <Text style={styles.sellerType}>{foundCar.sellerType}</Text>
+                  </View>
+                )}
               </View>
             </View>
           </View>
@@ -465,5 +476,14 @@ const styles = StyleSheet.create({
     color: Colors.background,
     fontSize: 16,
     fontWeight: '600',
+  },
+  sellerNameButton: {
+    flex: 1,
+  },
+  sellerNameClickable: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: Colors.primary,
+    textDecorationLine: 'underline',
   },
 });
