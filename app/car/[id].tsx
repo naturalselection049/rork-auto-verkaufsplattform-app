@@ -3,7 +3,7 @@ import { StyleSheet, View, Text, ScrollView, Pressable, Dimensions, Platform } f
 import { useLocalSearchParams, Link } from 'expo-router';
 import { Image } from 'expo-image';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Heart, Share2, MapPin, Calendar, Gauge, Fuel, Zap, MessageCircle, Calculator } from 'lucide-react-native';
+import { Heart, Share2, MapPin, Calendar, Gauge, Fuel, Zap, MessageCircle, Calculator, Wrench } from 'lucide-react-native';
 import { carListings } from '@/mocks/cars';
 import { useFavoritesStore } from '@/store/favorites';
 import { Colors } from '@/constants/colors';
@@ -210,12 +210,21 @@ export default function CarDetailScreen() {
             </View>
           </View>
           
-          <Link href={`/cost-calculator?price=${foundCar.price}&fuel=${foundCar.fuelType}&year=${foundCar.year}`} asChild>
-            <Pressable style={styles.calculatorButton}>
-              <Calculator size={20} color={Colors.primary} />
-              <Text style={styles.calculatorButtonText}>Kostenrechner öffnen</Text>
-            </Pressable>
-          </Link>
+          <View style={styles.actionButtons}>
+            <Link href={`/cost-calculator?price=${foundCar.price}&fuel=${foundCar.fuelType}&year=${foundCar.year}`} asChild>
+              <Pressable style={styles.actionButton}>
+                <Calculator size={20} color={Colors.primary} />
+                <Text style={styles.actionButtonText}>Kostenrechner</Text>
+              </Pressable>
+            </Link>
+            
+            <Link href={`/parts-market?brand=${foundCar.brand}&model=${foundCar.model}&year=${foundCar.year}`} asChild>
+              <Pressable style={styles.actionButton}>
+                <Wrench size={20} color={Colors.primary} />
+                <Text style={styles.actionButtonText}>Ersatzteile</Text>
+              </Pressable>
+            </Link>
+          </View>
           
           <View style={styles.section}>
             <Text style={styles.sectionTitle}>Beschreibung</Text>
@@ -371,17 +380,22 @@ const styles = StyleSheet.create({
     color: Colors.secondaryText,
     textAlign: 'center',
   },
-  calculatorButton: {
+  actionButtons: {
+    flexDirection: 'row',
+    gap: 12,
+    marginBottom: 24,
+  },
+  actionButton: {
+    flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: Colors.card,
     borderRadius: 12,
     padding: 16,
-    marginBottom: 24,
   },
-  calculatorButtonText: {
-    fontSize: 16,
+  actionButtonText: {
+    fontSize: 14,
     fontWeight: '500',
     color: Colors.primary,
     marginLeft: 8,
