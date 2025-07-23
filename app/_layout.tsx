@@ -7,6 +7,7 @@ import { StatusBar } from 'expo-status-bar';
 import { View, ActivityIndicator } from 'react-native';
 import { Colors } from '@/constants/colors';
 import { ThemeProvider, useTheme } from '@/contexts/ThemeContext';
+import { useCartStore } from '@/store/cart';
 
 export const unstable_settings = {
   initialRouteName: "(tabs)",
@@ -50,6 +51,11 @@ export default function RootLayout() {
 
 function RootLayoutNav() {
   const { isDarkMode, colors } = useTheme();
+  const { loadCart } = useCartStore();
+  
+  useEffect(() => {
+    loadCart();
+  }, [loadCart]);
   
   return (
     <>
@@ -161,6 +167,33 @@ function RootLayoutNav() {
           name="auth/register" 
           options={{ 
             title: "Registrieren",
+            headerTitleStyle: {
+              fontWeight: '600',
+            },
+          }} 
+        />
+        <Stack.Screen 
+          name="parts-market" 
+          options={{ 
+            title: "Ersatzteilmarkt",
+            headerTitleStyle: {
+              fontWeight: '600',
+            },
+          }} 
+        />
+        <Stack.Screen 
+          name="cart" 
+          options={{ 
+            title: "Warenkorb",
+            headerTitleStyle: {
+              fontWeight: '600',
+            },
+          }} 
+        />
+        <Stack.Screen 
+          name="seller/[id]" 
+          options={{ 
+            title: "Verkäuferprofil",
             headerTitleStyle: {
               fontWeight: '600',
             },

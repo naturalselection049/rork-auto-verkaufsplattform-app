@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Text, ScrollView, Pressable, TextInput, FlatList } from 'react-native';
+import { StyleSheet, View, Text, ScrollView, Pressable, TextInput, FlatList, Alert } from 'react-native';
 import { useLocalSearchParams, Stack, router } from 'expo-router';
 import { Image } from 'expo-image';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Search, Filter, Star, ShoppingCart, ArrowLeft, Package, Truck, Shield } from 'lucide-react-native';
+import { Search, Filter, Star, ShoppingCart, ArrowLeft, Package, Truck, Shield, Plus, Minus } from 'lucide-react-native';
 import { Colors } from '@/constants/colors';
+import { useCartStore } from '@/store/cart';
 
 interface CarPart {
   id: string;
@@ -160,6 +161,7 @@ export default function PartsMarketScreen() {
   const [selectedCategory, setSelectedCategory] = useState<string>('Alle');
   const [parts, setParts] = useState<CarPart[]>([]);
   const [filteredParts, setFilteredParts] = useState<CarPart[]>([]);
+  const { addToCart, items: cartItems, getItemCount } = useCartStore();
 
   const categories = [
     'Alle',
@@ -181,6 +183,34 @@ export default function PartsMarketScreen() {
     }
   }, [brand, model, year]);
 
+  const handleAddToCart = (part: CarPart) => {
+    const cartItem = {
+      id: part.id,
+      name: part.name,
+      price: part.price,
+      originalPrice: part.originalPrice,
+      brand: part.brand,
+      condition: part.condition,
+      image: part.image,
+      seller: part.seller,
+      shipping: part.shipping,
+      warranty: part.warranty,
+      carCompatibility: `${brand} ${model} ${year}`
+    };
+    
+    addToCart(cartItem);
+    Alert.alert(
+      'Zum Warenkorb hinzugefügt',
+      `${part.name} wurde erfolgreich zum Warenkorb hinzugefügt.`,
+      [{ text: 'OK' }]
+    );
+  };
+
+  const getCartQuantity = (partId: string) => {
+    const cartItem = cartItems.find(item => item.id === partId);
+    return cartItem ? cartItem.quantity : 0;
+  };
+
   useEffect(() => {
     let filtered = parts;
 
@@ -199,58 +229,71 @@ export default function PartsMarketScreen() {
     setFilteredParts(filtered);
   }, [parts, selectedCategory, searchQuery]);
 
-  const renderPartItem = ({ item }: { item: CarPart }) => (
-    <Pressable style={styles.partCard}>
-      <Image source={{ uri: item.image }} style={styles.partImage} contentFit="cover" />
-      
-      <View style={styles.partInfo}>
-        <Text style={styles.partName} numberOfLines={2}>{item.name}</Text>
-        <Text style={styles.partBrand}>{item.brand}</Text>
+  const renderPartItem = ({ item }: { item: CarPart }) => {
+    const cartQuantity = getCartQuantity(item.id);
+    
+    return (
+      <Pressable style={styles.partCard}>
+        <Image source={{ uri: item.image }} style={styles.partImage} contentFit="cover" />
         
-        <View style={styles.ratingContainer}>
-          <Star size={14} color={Colors.favorite} fill={Colors.favorite} />
-          <Text style={styles.rating}>{item.rating}</Text>
-          <Text style={styles.reviewCount}>({item.reviewCount})</Text>
-        </View>
-        
-        <View style={styles.conditionContainer}>
-          <View style={[styles.conditionBadge, 
-            item.condition === 'Neu' ? styles.newBadge : 
-            item.condition === 'Gebraucht' ? styles.usedBadge : styles.refurbishedBadge
-          ]}>
-            <Text style={[styles.conditionText,
-              item.condition === 'Neu' ? styles.newText : 
-              item.condition === 'Gebraucht' ? styles.usedText : styles.refurbishedText
-            ]}>{item.condition}</Text>
+        <View style={styles.partInfo}>
+          <Text style={styles.partName} numberOfLines={2}>{item.name}</Text>
+          <Text style={styles.partBrand}>{item.brand}</Text>
+          
+          <View style={styles.ratingContainer}>
+            <Star size={14} color={Colors.favorite} fill={Colors.favorite} />
+            <Text style={styles.rating}>{item.rating}</Text>
+            <Text style={styles.reviewCount}>({item.reviewCount})</Text>
           </View>
+          
+          <View style={styles.conditionContainer}>
+            <View style={[styles.conditionBadge, 
+              item.condition === 'Neu' ? styles.newBadge : 
+              item.condition === 'Gebraucht' ? styles.usedBadge : styles.refurbishedBadge
+            ]}>
+              <Text style={[styles.conditionText,
+                item.condition === 'Neu' ? styles.newText : 
+                item.condition === 'Gebraucht' ? styles.usedText : styles.refurbishedText
+              ]}>{item.condition}</Text>
+            </View>
+          </View>
+          
+          <View style={styles.priceContainer}>
+            {item.originalPrice && (
+              <Text style={styles.originalPrice}>{item.originalPrice.toFixed(2)} €</Text>
+            )}
+            <Text style={styles.price}>{item.price.toFixed(2)} €</Text>
+          </View>
+          
+          <View style={styles.shippingInfo}>
+            <Truck size={12} color={Colors.secondaryText} />
+            <Text style={styles.shippingText}>
+              {item.shipping.cost === 0 ? 'Kostenloser Versand' : `${item.shipping.cost.toFixed(2)} € Versand`}
+            </Text>
+          </View>
+          
+          <View style={styles.warrantyInfo}>
+            <Shield size={12} color={Colors.primary} />
+            <Text style={styles.warrantyText}>{item.warranty}</Text>
+          </View>
+          
+          {cartQuantity > 0 ? (
+            <View style={styles.quantityContainer}>
+              <Text style={styles.inCartText}>Im Warenkorb: {cartQuantity}</Text>
+            </View>
+          ) : null}
+          
+          <Pressable 
+            style={styles.addToCartButton}
+            onPress={() => handleAddToCart(item)}
+          >
+            <ShoppingCart size={16} color={Colors.background} />
+            <Text style={styles.addToCartText}>In den Warenkorb</Text>
+          </Pressable>
         </View>
-        
-        <View style={styles.priceContainer}>
-          {item.originalPrice && (
-            <Text style={styles.originalPrice}>{item.originalPrice.toFixed(2)} €</Text>
-          )}
-          <Text style={styles.price}>{item.price.toFixed(2)} €</Text>
-        </View>
-        
-        <View style={styles.shippingInfo}>
-          <Truck size={12} color={Colors.secondaryText} />
-          <Text style={styles.shippingText}>
-            {item.shipping.cost === 0 ? 'Kostenloser Versand' : `${item.shipping.cost.toFixed(2)} € Versand`}
-          </Text>
-        </View>
-        
-        <View style={styles.warrantyInfo}>
-          <Shield size={12} color={Colors.primary} />
-          <Text style={styles.warrantyText}>{item.warranty}</Text>
-        </View>
-        
-        <Pressable style={styles.addToCartButton}>
-          <ShoppingCart size={16} color={Colors.background} />
-          <Text style={styles.addToCartText}>In den Warenkorb</Text>
-        </Pressable>
-      </View>
-    </Pressable>
-  );
+      </Pressable>
+    );
+  };
 
   return (
     <SafeAreaView style={styles.container} edges={['bottom']}>
@@ -260,6 +303,19 @@ export default function PartsMarketScreen() {
           headerLeft: () => (
             <Pressable onPress={() => router.back()} style={styles.backButton}>
               <ArrowLeft size={24} color={Colors.text} />
+            </Pressable>
+          ),
+          headerRight: () => (
+            <Pressable 
+              onPress={() => router.push('/cart')} 
+              style={styles.cartButton}
+            >
+              <ShoppingCart size={24} color={Colors.text} />
+              {getItemCount() > 0 && (
+                <View style={styles.cartBadge}>
+                  <Text style={styles.cartBadgeText}>{getItemCount()}</Text>
+                </View>
+              )}
             </Pressable>
           ),
         }} 
@@ -523,5 +579,33 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     color: Colors.background,
     marginLeft: 6,
+  },
+  cartButton: {
+    padding: 8,
+    position: 'relative',
+  },
+  cartBadge: {
+    position: 'absolute',
+    top: 4,
+    right: 4,
+    backgroundColor: Colors.notification,
+    borderRadius: 10,
+    minWidth: 20,
+    height: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  cartBadgeText: {
+    color: Colors.background,
+    fontSize: 12,
+    fontWeight: '600',
+  },
+  quantityContainer: {
+    marginBottom: 8,
+  },
+  inCartText: {
+    fontSize: 12,
+    color: Colors.primary,
+    fontWeight: '500',
   },
 });

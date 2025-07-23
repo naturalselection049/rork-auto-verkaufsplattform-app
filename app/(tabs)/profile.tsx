@@ -1,15 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Text, Pressable, ScrollView, Switch, Alert, Modal, TextInput, ActivityIndicator } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Image } from 'expo-image';
 import { 
   Settings, MessageCircle, Car, Bell, Shield, 
-  HelpCircle, LogOut, ChevronRight, Camera
+  HelpCircle, LogOut, ChevronRight, Camera, ShoppingCart
 } from 'lucide-react-native';
 import { useTheme } from '@/contexts/ThemeContext';
 import * as ImagePicker from 'expo-image-picker';
 import { useProfileStore } from '@/store/profile';
 import { useAuthStore } from '@/store/auth';
+import { useCartStore } from '@/store/cart';
 import { useRouter } from 'expo-router';
 
 export default function ProfileScreen() {
@@ -17,6 +18,7 @@ export default function ProfileScreen() {
   const { colors } = useTheme();
   const { profile, updateProfile, updateSettings } = useProfileStore();
   const { user, isAuthenticated, logout } = useAuthStore();
+  const { items: cartItems, getItemCount, getTotalPrice, loadCart } = useCartStore();
   const styles = createStyles(colors);
   const [showEditModal, setShowEditModal] = useState(false);
   const [showSettingsModal, setShowSettingsModal] = useState(false);
@@ -25,10 +27,15 @@ export default function ProfileScreen() {
   const [showHelpModal, setShowHelpModal] = useState(false);
   const [showMyListingsModal, setShowMyListingsModal] = useState(false);
   const [showForumPostsModal, setShowForumPostsModal] = useState(false);
+  const [showCartModal, setShowCartModal] = useState(false);
   
   const [editName, setEditName] = useState(`${user?.firstName || ''} ${user?.lastName || ''}`);
   const [editEmail, setEditEmail] = useState(user?.email || '');
   const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    loadCart();
+  }, [loadCart]);
   
   const pickProfileImage = async () => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -274,6 +281,13 @@ export default function ProfileScreen() {
             title="Forum-Beiträge"
             subtitle="Verwalte deine Beiträge im Forum"
             onPress={navigateToForumPosts}
+          />
+          
+          <MenuItem 
+            icon={<ShoppingCart size={22} color={colors.primary} />}
+            title="Warenkorb"
+            subtitle={`${getItemCount()} Artikel • ${getTotalPrice().toFixed(2)} €`}
+            onPress={() => setShowCartModal(true)}
           />
           
           <MenuItem 
@@ -627,6 +641,60 @@ export default function ProfileScreen() {
             <Pressable 
               style={styles.closeModalButton}
               onPress={() => setShowForumPostsModal(false)}
+            >
+              <Text style={styles.closeModalButtonText}>Schließen</Text>
+            </Pressable>
+          </View>
+        </View>
+      </Modal>
+      
+      {/* Cart Modal */}
+      <Modal
+        visible={showCartModal}
+        animationType="slide"
+        transparent={true}
+      >
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+            <Text style={styles.modalTitle}>Mein Warenkorb</Text>
+            
+            {cartItems.length === 0 ? (
+              <View style={styles.emptyCartContainer}>
+                <ShoppingCart size={48} color={colors.secondaryText} />
+                <Text style={styles.emptyCartText}>Dein Warenkorb ist leer</Text>
+              </View>
+            ) : (
+              <ScrollView style={styles.cartItemsContainer}>
+                {cartItems.map((item) => (
+                  <View key={item.id} style={styles.cartItem}>
+                    <Image source={{ uri: item.image }} style={styles.cartItemImage} contentFit="cover" />
+                    <View style={styles.cartItemDetails}>
+                      <Text style={styles.cartItemName} numberOfLines={2}>{item.name}</Text>
+                      <Text style={styles.cartItemBrand}>{item.brand}</Text>
+                      <Text style={styles.cartItemPrice}>{item.price.toFixed(2)} € × {item.quantity}</Text>
+                    </View>
+                  </View>
+                ))}
+                
+                <View style={styles.cartSummary}>
+                  <Text style={styles.cartTotalText}>Gesamtsumme: {getTotalPrice().toFixed(2)} €</Text>
+                </View>
+                
+                <Pressable 
+                  style={styles.viewFullCartButton}
+                  onPress={() => {
+                    setShowCartModal(false);
+                    router.push('/cart');
+                  }}
+                >
+                  <Text style={styles.viewFullCartButtonText}>Vollständigen Warenkorb anzeigen</Text>
+                </Pressable>
+              </ScrollView>
+            )}
+            
+            <Pressable 
+              style={styles.closeModalButton}
+              onPress={() => setShowCartModal(false)}
             >
               <Text style={styles.closeModalButtonText}>Schließen</Text>
             </Pressable>
@@ -1000,6 +1068,74 @@ const createStyles = (colors: any) => StyleSheet.create({
   },
   registerButtonText: {
     color: colors.primary,
+    fontSize: 16,
+    fontWeight: '600',
+  },
+  emptyCartContainer: {
+    alignItems: 'center',
+    paddingVertical: 32,
+  },
+  emptyCartText: {
+    fontSize: 16,
+    color: colors.secondaryText,
+    marginTop: 16,
+  },
+  cartItemsContainer: {
+    maxHeight: 300,
+  },
+  cartItem: {
+    flexDirection: 'row',
+    paddingVertical: 12,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.border,
+  },
+  cartItemImage: {
+    width: 50,
+    height: 50,
+    borderRadius: 8,
+    backgroundColor: colors.placeholder,
+  },
+  cartItemDetails: {
+    flex: 1,
+    marginLeft: 12,
+  },
+  cartItemName: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: colors.text,
+    marginBottom: 2,
+  },
+  cartItemBrand: {
+    fontSize: 12,
+    color: colors.secondaryText,
+    marginBottom: 4,
+  },
+  cartItemPrice: {
+    fontSize: 14,
+    fontWeight: '500',
+    color: colors.price,
+  },
+  cartSummary: {
+    paddingVertical: 16,
+    borderTopWidth: 1,
+    borderTopColor: colors.border,
+    marginTop: 16,
+  },
+  cartTotalText: {
+    fontSize: 18,
+    fontWeight: '600',
+    color: colors.text,
+    textAlign: 'center',
+  },
+  viewFullCartButton: {
+    backgroundColor: colors.primary,
+    borderRadius: 8,
+    paddingVertical: 12,
+    alignItems: 'center',
+    marginBottom: 16,
+  },
+  viewFullCartButtonText: {
+    color: colors.background,
     fontSize: 16,
     fontWeight: '600',
   },
